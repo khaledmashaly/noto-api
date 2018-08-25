@@ -1,0 +1,22 @@
+{
+  "name": "noto",
+  "version": "1.0.0",
+  "description": "noto server api",
+  "main": "app.js",
+  "scripts": {
+    "start": "babel-node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Khaled Mashaly",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.4.0",
+    "eslint-config-google": "^0.9.1",
+    "gulp": "^3.9.1"
+  }
+}

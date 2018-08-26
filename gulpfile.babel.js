@@ -7,7 +7,7 @@ const paths = {
     dest: []
   },
   scripts: {
-    src: [],
+    src: ['./*.js'],
     dest: []
   }
 };

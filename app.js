@@ -6,10 +6,6 @@ const port = process.env.PORT || 3500;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.send('<h1>app is working</h1>');
-});
-
 app.get('*', (req, res) => {
   res.redirect('/');
 });

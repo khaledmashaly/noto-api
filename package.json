@@ -10,7 +10,9 @@
   "author": "Khaled Mashaly",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "mongodb": "^3.1.4",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

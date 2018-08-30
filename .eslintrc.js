@@ -9,6 +9,7 @@ module.exports = {
   "extends": ["eslint:recommended", "google"],
   "rules": {
     "comma-dangle": 0,
-    "no-console": 1
+    "no-console": 1,
+    "max-len": 0
   }
 };

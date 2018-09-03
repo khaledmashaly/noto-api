@@ -254,14 +254,13 @@ var EditNoteComponent = /** @class */ (function () {
         this.route = route;
         this.location = location;
         this.note = {
-            id: 0,
             title: '',
             body: ''
         };
     }
     EditNoteComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var id = +this.route.snapshot.paramMap.get('id');
+        var id = this.route.snapshot.paramMap.get('id');
         this.noteService.getNote(id)
             .subscribe(function (note) { return _this.note = note; });
     };
@@ -361,7 +360,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"note-list-wrapper\">\n  <div class=\"note-list\">\n    <mat-card class=\"note-card\" *ngFor=\"let note of noteList\">\n      <mat-card-title>\n\n        <p>{{note.title}}</p>\n\n        <button mat-icon-button [matMenuTriggerFor]=\"menu\">\n          <mat-icon>more_vert</mat-icon>\n        </button>\n        <mat-menu #menu=\"matMenu\">\n          <button mat-menu-item (click)=\"deleteNote(note.id)\">\n            <mat-icon>delete</mat-icon>\n            <span>delete</span>\n          </button>\n          <button mat-menu-item (click)=\"editNote(note.id)\">\n            <mat-icon>edit</mat-icon>\n            <span>edit</span>\n          </button>\n        </mat-menu>\n      </mat-card-title>\n\n      <mat-card-content>{{note.body}}</mat-card-content>\n\n    </mat-card>\n  </div>\n  <button mat-fab color=\"primary\" class=\"fab\" (click)=\"createNote()\">\n    <mat-icon>add</mat-icon>\n  </button>\n</div>\n"
+module.exports = "<div class=\"note-list-wrapper\">\n  <div class=\"note-list\">\n    <mat-card class=\"note-card\" *ngFor=\"let note of noteList\">\n      <mat-card-title>\n\n        <p>{{note.title}}</p>\n\n        <button mat-icon-button [matMenuTriggerFor]=\"menu\">\n          <mat-icon>more_vert</mat-icon>\n        </button>\n        <mat-menu #menu=\"matMenu\">\n          <button mat-menu-item (click)=\"deleteNote(note._id)\">\n            <mat-icon>delete</mat-icon>\n            <span>delete</span>\n          </button>\n          <button mat-menu-item (click)=\"editNote(note._id)\">\n            <mat-icon>edit</mat-icon>\n            <span>edit</span>\n          </button>\n        </mat-menu>\n      </mat-card-title>\n\n      <mat-card-content>{{note.body}}</mat-card-content>\n\n    </mat-card>\n  </div>\n  <button mat-fab color=\"primary\" class=\"fab\" (click)=\"createNote()\">\n    <mat-icon>add</mat-icon>\n  </button>\n</div>\n"
 
 /***/ }),
 
@@ -414,22 +413,17 @@ var NoteListComponent = /** @class */ (function () {
         this.notesService.getNotes()
             .subscribe(function (notes) { return _this.noteList = notes; });
     };
-    NoteListComponent.prototype.deleteNote = function (id) {
-        this.noteList = this.noteList.filter(function (note) { return note.id !== id; });
-        this.notesService.deleteNote(id).subscribe();
+    NoteListComponent.prototype.deleteNote = function (_id) {
+        this.noteList = this.noteList.filter(function (note) { return note._id !== _id; });
+        this.notesService.deleteNote(_id).subscribe();
     };
     NoteListComponent.prototype.createNote = function () {
         var _this = this;
-        var newNote = {
-            id: this.noteList[this.noteList.length - 1].id + 1,
-            title: '',
-            body: ''
-        };
-        this.notesService.createNote(newNote)
-            .subscribe(function () { return _this.editNote(newNote.id); });
+        this.notesService.createNote({ title: '', body: '' })
+            .subscribe(function (notes) { return _this.editNote(notes[0]._id); });
     };
-    NoteListComponent.prototype.editNote = function (id) {
-        this.router.navigate(['/edit-note/', id]);
+    NoteListComponent.prototype.editNote = function (_id) {
+        this.router.navigate(['/edit-note/', _id]);
     };
     NoteListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -485,7 +479,7 @@ var NotesService = /** @class */ (function () {
     NotesService.prototype.getNote = function (id) {
         var url = api + "/" + id;
         return this.http.get(url)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError("getNote id=" + id)));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError("getNote _id=" + id)));
     };
     NotesService.prototype.getNotes = function () {
         return this.http.get(api)
@@ -493,7 +487,7 @@ var NotesService = /** @class */ (function () {
     };
     NotesService.prototype.deleteNote = function (id) {
         var url = api + "/" + id;
-        console.log("deleted note id " + id);
+        console.log("deleted note _id " + id);
         return this.http.delete(url, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('deleteNote', [])));
     };
@@ -502,7 +496,7 @@ var NotesService = /** @class */ (function () {
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('createNote', [])));
     };
     NotesService.prototype.editNote = function (note) {
-        var url = api + "/" + note.id;
+        var url = api + "/" + note._id;
         return this.http.put(url, note, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('editNote')));
     };

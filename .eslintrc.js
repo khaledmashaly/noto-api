@@ -10,6 +10,7 @@ module.exports = {
   "rules": {
     "comma-dangle": 0,
     "no-console": 1,
-    "max-len": 0
+    "max-len": 0,
+    "object-curly-spacing": 0
   }
 };

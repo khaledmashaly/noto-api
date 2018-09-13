@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ObjectID } from 'mongodb';
 import assert from 'assert';
-import { findAll, findOne, deleteOne, updateOne } from '../db/db';
+import { findAll, insertOne, findOne, deleteOne, updateOne } from '../db/db';
 
 const noteRouter = new Router();
 
@@ -9,11 +9,14 @@ noteRouter.route('/')
 	.get((req, res) => {
 		findAll().then(docs => {
 				res.status(200).json(docs);
-			})
-			.catch(err => console.error(err));
+		})
+		.catch(err => console.error(err));
 	})
 	.post((req, res) => {
-		res.status(201).json({'hello': 'world'});
+		insertOne(req.body).then(insertedId => {
+			res.status(200).send(insertedId);
+		})
+		.catch(err => console.error(err));
 	});
 
 noteRouter.route('/:id')

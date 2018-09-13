@@ -10,6 +10,8 @@
   "author": "Khaled Mashaly",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "mongodb": "^3.1.4",
@@ -20,7 +22,7 @@
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.4.0",
     "eslint-config-google": "^0.9.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-eslint": "^5.0.0",
     "nodemon": "^1.18.3"
   }

@@ -17,7 +17,6 @@ const paths = {
 const srcOptions = { base: '.' };
 
 const clean = (cb) => {
-	console.log(process.env.NODE_ENV);
 	rimraf('dist', cb);
 };
 

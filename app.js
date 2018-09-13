@@ -1,16 +1,21 @@
 import express from 'express';
 import helmet from 'helmet';
-import path from 'path';
+import compression from 'compression';
 import logger from 'morgan';
+import bodyParser from 'body-parser';
+import path from 'path';
 import noteRouter from './routes/notes';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(helmet());
+app.use(compression());
 app.use(logger('dev'));
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/notes', noteRouter);
 
 app.get('*', (req, res) => {

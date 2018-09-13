@@ -70,3 +70,19 @@ export const updateOne = (doc, update) => {
 			.catch(e => reject(e));
 	});
 };
+
+export const insertOne = doc => {
+	return new Promise((resolve, reject) => {
+		MongoClient.connect(url, options)
+			.then(client => {
+				client.db(db).collection(col)
+					.insertOne(doc)
+					.then(({ insertedId }) => {
+						resolve(insertedId);
+					})
+					.catch(e => reject(e));
+				client.close();
+			})
+			.catch(e => reject(e));
+	});
+};

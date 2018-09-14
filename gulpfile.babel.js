@@ -2,6 +2,7 @@ import {src, dest, series} from 'gulp';
 import eslint from 'gulp-eslint';
 import babel from 'gulp-babel';
 import rimraf from 'rimraf';
+import { ncp } from 'ncp';
 
 const paths = {
 	styles: {
@@ -20,8 +21,11 @@ const clean = (cb) => {
 	rimraf('dist', cb);
 };
 
+const copyStaticAssets = (cb) => {
+	ncp('public', 'dist/public', cb);
+};
+
 export const buildJS = () => {
-	// TODO: uglify and source maps
 	return src(paths.scripts.src, srcOptions)
 		.pipe(eslint())
 		.pipe(eslint.format())
@@ -30,6 +34,6 @@ export const buildJS = () => {
 		.pipe(dest(paths.scripts.dest));
 };
 
-const build = series(clean, buildJS);
+const build = series(clean, buildJS, copyStaticAssets);
 
 export default build;

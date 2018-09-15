@@ -5,14 +5,8 @@ import rimraf from 'rimraf';
 import { ncp } from 'ncp';
 
 const paths = {
-	styles: {
-		src: [],
-		dest: []
-	},
-	scripts: {
-		src: ['app.js', 'routes/*.js', 'db/*.js'],
-		dest: ['dist/']
-	}
+	src: ['app.js', 'routes/*.js', 'db/*.js'],
+	dest: ['dist/']
 };
 
 const srcOptions = { base: '.' };
@@ -26,12 +20,12 @@ const copyStaticAssets = (cb) => {
 };
 
 export const buildJS = () => {
-	return src(paths.scripts.src, srcOptions)
+	return src(paths.src, srcOptions)
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError())
 		.pipe(babel())
-		.pipe(dest(paths.scripts.dest));
+		.pipe(dest(paths.dest));
 };
 
 const build = series(clean, buildJS, copyStaticAssets);

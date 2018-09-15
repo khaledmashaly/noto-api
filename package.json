@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production gulp"
+    "build": "cross-env NODE_ENV=production gulp && node dist/app.js"
   },
   "author": "Khaled Mashaly",
   "license": "ISC",

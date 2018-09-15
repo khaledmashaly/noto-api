@@ -10,13 +10,19 @@ noteRouter.route('/')
 		findAll().then(docs => {
 				res.status(200).json(docs);
 		})
-		.catch(err => console.error(err));
+		.catch(err => {
+			console.error(err);
+			res.status(500);
+		});
 	})
 	.post((req, res) => {
 		insertOne(req.body).then(insertedId => {
 			res.status(200).send(insertedId);
 		})
-		.catch(err => console.error(err));
+		.catch(err => {
+			console.error(err);
+			res.status(500);
+		});
 	});
 
 noteRouter.route('/:id')
@@ -26,7 +32,10 @@ noteRouter.route('/:id')
 			.then(doc => {
 				res.status(200).json(doc);
 			})
-			.catch(err => console.error(err));
+			.catch(err => {
+				console.error(err);
+				res.status(500);
+			});
 	})
 	.delete((req, res) => {
 		const id = new ObjectID(req.params.id);
@@ -35,7 +44,10 @@ noteRouter.route('/:id')
 				assert.equal(deletedCount, 1);
 				res.status(204).send();
 			})
-			.catch((err) => console.error(err));
+			.catch(err => {
+				console.error(err);
+				res.status(500);
+			});
 	})
 	.put((req, res) => {
 		const id = new ObjectID(req.params.id);
@@ -50,7 +62,10 @@ noteRouter.route('/:id')
 			assert.equal(modifiedCount, 1);
 			res.status(204).send();
 		})
-		.catch((err) => console.error(err));
+			.catch(err => {
+				console.error(err);
+				res.status(500);
+			});
 	});
 
 export default noteRouter;

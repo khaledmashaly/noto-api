@@ -1,4 +1,4 @@
-import {src, dest, series} from 'gulp';
+import { src, dest, series } from 'gulp';
 import eslint from 'gulp-eslint';
 import babel from 'gulp-babel';
 import rimraf from 'rimraf';

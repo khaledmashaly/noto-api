@@ -1,12 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# json-server db.json file
-/src/dev/db.json
-
 # compiled output
 /dist
 /tmp
 /out-tsc
+/public
 
 # dependencies
 /node_modules
@@ -22,10 +20,10 @@
 
 # IDE - VSCode
 .vscode
-# !.vscode/settings.json
-# !.vscode/tasks.json
-# !.vscode/launch.json
-# !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
 /.sass-cache

@@ -1,88 +1,19 @@
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
-const url = 'mongodb://localhost:27017/';
-const db = 'noto';
-const col = 'notes';
-const options = {
-	useNewUrlParser: true
-};
+const dburl = 'mongodb://localhost:27017/noto';
+const Schema = mongoose.Schema;
 
-export const findAll = () => {
-	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, options)
-			.then(client => {
-				client.db(db).collection(col)
-					.find({}).toArray()
-						.then(docs => {
-							resolve(docs);
-						})
-						.catch(e => reject(e));
-				client.close();
-			})
-			.catch(e => reject(e));
-	});
-};
+mongoose.connect(dburl, { useNewUrlParser: true });
 
-export const findOne = doc => {
-	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, options)
-			.then(client => {
-				client.db(db).collection(col)
-					.findOne(doc)
-					.then(doc => {
-						resolve(doc);
-					})
-					.catch(e => reject(e));
-				client.close();
-			})
-			.catch(e => reject(e));
-	});
-};
+const db = mongoose.connection;
 
-export const deleteOne = doc => {
-	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, options)
-			.then(client => {
-				client.db(db).collection(col)
-					.deleteOne(doc)
-					.then(doc => {
-						resolve(doc);
-					})
-					.catch(e => reject(e));
-				client.close();
-			})
-			.catch(e => reject(e));
-	});
-};
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', console.log.bind(console, 'connection open'));
 
-export const updateOne = (doc, update) => {
-	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, options)
-			.then(client => {
-				client.db(db).collection(col)
-					.updateOne(doc, update)
-					.then(doc => {
-						resolve(doc);
-					})
-					.catch(e => reject(e));
-				client.close();
-			})
-			.catch(e => reject(e));
-	});
-};
+const noteSchema = new Schema({
+	// TODO: introduce maxlength properties
+	title: { type: String, default: 'New note title' },
+	body: { type: String, default: '' }
+});
 
-export const insertOne = doc => {
-	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, options)
-			.then(client => {
-				client.db(db).collection(col)
-					.insertOne(doc)
-					.then(({ insertedId }) => {
-						resolve(insertedId);
-					})
-					.catch(e => reject(e));
-				client.close();
-			})
-			.catch(e => reject(e));
-	});
-};
+export const Note = mongoose.model('Note', noteSchema);

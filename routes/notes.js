@@ -1,70 +1,62 @@
 import { Router } from 'express';
-import { ObjectID } from 'mongodb';
 import assert from 'assert';
-import { findAll, insertOne, findOne, deleteOne, updateOne } from '../db/db';
+import { Note } from '../db/db';
 
 const noteRouter = new Router();
 
 noteRouter.route('/')
 	.get((req, res) => {
-		findAll().then(docs => {
+		Note.find()
+			.then(docs => {
 				res.status(200).json(docs);
-		})
-		.catch(err => {
-			console.error(err);
-			res.status(500);
-		});
+			})
+			.catch(err => {
+				console.error(err);
+				res.status(500).send(err);
+			});
 	})
 	.post((req, res) => {
-		insertOne(req.body).then(insertedId => {
-			res.status(200).send(insertedId);
-		})
-		.catch(err => {
-			console.error(err);
-			res.status(500);
-		});
+		console.log('req.body:', req.body);
+		Note.create(new Note)
+			.then(doc => {
+				res.status(200).send(doc.id);
+			})
+			.catch(err => {
+				console.error(err);
+				res.status(500).send(err);
+			});
 	});
 
 noteRouter.route('/:id')
 	.get((req, res) => {
-		const id = new ObjectID(req.params.id);
-		findOne({ _id: id })
+		Note.findById(req.params.id)
 			.then(doc => {
 				res.status(200).json(doc);
 			})
 			.catch(err => {
 				console.error(err);
-				res.status(500);
+				res.status(500).send(err);
 			});
 	})
 	.delete((req, res) => {
-		const id = new ObjectID(req.params.id);
-		deleteOne({ _id: id })
-			.then(({ deletedCount }) => {
-				assert.equal(deletedCount, 1);
+		Note.findByIdAndDelete(req.params.id)
+			.then(() => {
 				res.status(204).send();
 			})
 			.catch(err => {
 				console.error(err);
-				res.status(500);
+				res.status(500).send(err);
 			});
 	})
 	.put((req, res) => {
-		const id = new ObjectID(req.params.id);
-		const { title: newTitle, body: newBody } = req.body;
-		updateOne({ _id: id }, {
-			$set: {
-				title: newTitle,
-				body: newBody
-			}
-		})
-		.then(({ modifiedCount }) => {
-			assert.equal(modifiedCount, 1);
+		Note.findByIdAndUpdate(req.params.id, req.body, { new: true })
+		.then(doc => {
+			assert.strictEqual(doc.title, req.body.title);
 			res.status(204).send();
 		})
 			.catch(err => {
 				console.error(err);
-				res.status(500);
+				res.status(500).send(err);
 			});
 	});
 

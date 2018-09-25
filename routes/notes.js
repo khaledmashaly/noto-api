@@ -23,7 +23,7 @@ noteRouter.route('/')
 			})
 			.catch(err => {
 				console.error(err);
-				res.status(500).send(err);
+				res.sendStatus(500);
 			});
 	});
 
@@ -35,28 +35,28 @@ noteRouter.route('/:id')
 			})
 			.catch(err => {
 				console.error(err);
-				res.status(500).send(err);
+				res.sendStatus(500);
 			});
 	})
 	.delete((req, res) => {
 		Note.findByIdAndDelete(req.params.id)
 			.then(() => {
-				res.status(204).send();
+				res.status(204).end();
 			})
 			.catch(err => {
 				console.error(err);
-				res.status(500).send(err);
+				res.sendStatus(500);
 			});
 	})
 	.put((req, res) => {
 		Note.findByIdAndUpdate(req.params.id, req.body, { new: true })
 		.then(doc => {
 			assert.strictEqual(doc.title, req.body.title);
-			res.status(204).send();
+			res.status(204).end();
 		})
 			.catch(err => {
 				console.error(err);
-				res.status(500).send(err);
+				res.sendStatus(500);
 			});
 	});
 

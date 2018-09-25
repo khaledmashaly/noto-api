@@ -15,14 +15,15 @@ module.exports = {
 	],
 	settings: {
 		'import/resolver': 'node'
-	}
+	},
 	rules: {
 		'no-tabs': 'off',
+		'indent': 'off',
 		'quote-props': ['error', 'as-needed'],
 		'comma-dangle': 'off',
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
 		'max-len': 'off',
 		'object-curly-spacing': 'off',
-		'arrow-parens': 'off',
+		'arrow-parens': 'off'
 	}
 };

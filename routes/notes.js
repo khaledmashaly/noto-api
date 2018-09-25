@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import assert from 'assert';
-import { Note } from '../db/db';
+import { Note } from '../config/db';
 
 const noteRouter = new Router();
 

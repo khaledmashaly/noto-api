@@ -30,9 +30,13 @@ app.get('/*', (req, res) => {
 	res.redirect('/');
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
+	console.error(err);
 	if (err.name === 'UnauthorizedError') {
 		res.status(401).json(err);
+	}
+	else {
+		res.sendStatus(500);
 	}
 });
 

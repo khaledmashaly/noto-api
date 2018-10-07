@@ -9,59 +9,60 @@ const noteRouter = new Router();
 noteRouter.all('*', auth);
 
 noteRouter.route('/')
-	.get(async (req, res) => {
+	.get(async (req, res, next) => {
 		try {
 			const ownerId = req.payload.id;
 			const notes = await Note.find({ ownerId }).exec();
 			res.status(200).json(notes);
 		}
 		catch (err) {
-			console.error(err);
-			res.status(500).send(err);
+			next(err);
 		}
 	})
-	.post((req, res) => {
-		Note.create(new Note)
-			.then(doc => {
-				res.status(200).send(doc.id);
-			})
-			.catch(err => {
-				console.error(err);
-				res.sendStatus(500);
-			});
+	.post(async (req, res, next) => {
+		try {
+			const ownerId = req.payload.id;
+			const note = new Note({ ownerId });
+			const newNote = await note.save();
+			res.status(200).json({ id: newNote.id });
+		}
+		catch (err) {
+			next(err);
+		}
 	});
 
 noteRouter.route('/:id')
-	.get((req, res) => {
-		Note.findById(req.params.id)
-			.then(doc => {
-				res.status(200).json(doc);
-			})
-			.catch(err => {
-				console.error(err);
-				res.sendStatus(500);
-			});
+	.get(async (req, res, next) => {
+		try {
+			const noteId = req.params.id;
+			const note = await Note.findById(noteId).exec();
+			res.status(200).json(note);
+		}
+		catch (err) {
+			next(err);
+		}
 	})
-	.delete((req, res) => {
-		Note.findByIdAndDelete(req.params.id)
-			.then(() => {
-				res.status(204).end();
-			})
-			.catch(err => {
-				console.error(err);
-				res.sendStatus(500);
-			});
-	})
-	.put((req, res) => {
-		Note.findByIdAndUpdate(req.params.id, req.body, { new: true })
-		.then(doc => {
-			assert.strictEqual(doc.title, req.body.title);
+	.delete(async (req, res, next) => {
+		try {
+			const noteId = req.params.id;
+			await Note.findByIdAndDelete(noteId).exec();
 			res.status(204).end();
-		})
-			.catch(err => {
-				console.error(err);
-				res.sendStatus(500);
-			});
+		}
+		catch (err) {
+			next(err);
+		}
+	})
+	.put(async (req, res, next) => {
+		try {
+			const noteId = req.params.id;
+			const newNote = req.body;
+			const note = await Note.findByIdAndUpdate(noteId, newNote, { new: true }).exec();
+			assert.strictEqual(note.title, newNote.title);
+			res.status(204).end();
+		}
+		catch (err) {
+			next(err);
+		}
 	});
 
 export default noteRouter;

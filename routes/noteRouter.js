@@ -1,22 +1,24 @@
 import { Router } from 'express';
 import assert from 'assert';
-import { Note } from '../config/db';
+import auth from '../config/jwt';
+import mongoose from 'mongoose';
 
+const Note = mongoose.model('Note');
 const noteRouter = new Router();
 
 noteRouter.route('/')
-	.get((req, res) => {
-		Note.find()
-			.then(docs => {
-				res.status(200).json(docs);
-			})
-			.catch(err => {
-				console.error(err);
-				res.status(500).send(err);
-			});
+	.get(auth, async (req, res) => {
+		try {
+			const ownerId = req.payload.id;
+			const notes = await Note.find({ ownerId }).exec();
+			res.status(200).json(notes);
+		}
+		catch (err) {
+			console.error(err);
+			res.status(500).send(err);
+		}
 	})
 	.post((req, res) => {
-		console.log('req.body:', req.body);
 		Note.create(new Note)
 			.then(doc => {
 				res.status(200).send(doc.id);

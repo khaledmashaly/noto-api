@@ -1,13 +1,18 @@
 import mongoose from 'mongoose';
-import noteSchema from './mongooseSchema/noteSchema';
 
-const dburl = 'mongodb://localhost:27017/noto';
+const dbUrl = 'mongodb://localhost:27017/noto';
 
-mongoose.connect(dburl, { useNewUrlParser: true });
+mongoose.connect(dbUrl, { useNewUrlParser: true });
 
-const db = mongoose.connection;
+mongoose.connection.on('connection', () => {
+	console.log('mongoose connected');
+});
+mongoose.connection.on('error', (e) => {
+	console.log('mongoose connection error:', e);
+});
+mongoose.connection.on('disconnected', () => {
+	console.log('mongoose disconnected');
+});
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', console.log.bind(console, 'connection open'));
-
-export const Note = mongoose.model('Note', noteSchema);
+import './models/noteModel';
+import './models/userModel';

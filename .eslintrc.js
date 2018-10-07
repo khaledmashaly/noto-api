@@ -1,4 +1,5 @@
 module.exports = {
+	root: true,
 	env: {
 		es6: true,
 		node: true
@@ -17,13 +18,16 @@ module.exports = {
 		'import/resolver': 'node'
 	},
 	rules: {
-		'no-tabs': 'off',
-		'indent': 'off',
-		'quote-props': ['error', 'as-needed'],
+		'arrow-parens': 'off',
+		'brace-style': ['error', 'stroustrup'],
 		'comma-dangle': 'off',
-		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+		'indent': 'off',
 		'max-len': 'off',
-		'object-curly-spacing': 'off',
-		'arrow-parens': 'off'
+		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+		'no-tabs': 'off',
+		'object-curly-spacing': ['error', 'always'],
+		'one-var': ['error', { 'initialized': 'never', 'uninitialized': 'consecutive' }],
+		'quote-props': ['error', 'as-needed'],
+		'require-jsdoc': 'off'
 	}
 };

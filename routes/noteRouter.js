@@ -6,8 +6,10 @@ import mongoose from 'mongoose';
 const Note = mongoose.model('Note');
 const noteRouter = new Router();
 
+noteRouter.all('*', auth);
+
 noteRouter.route('/')
-	.get(auth, async (req, res) => {
+	.get(async (req, res) => {
 		try {
 			const ownerId = req.payload.id;
 			const notes = await Note.find({ ownerId }).exec();

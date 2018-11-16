@@ -46,7 +46,8 @@ userSchema.methods.checkPassword = function(password) {
 			let isValid;
 			try {
 				isValid = crypto.timingSafeEqual(savedKey, generatedkey);
-			} catch (err) {
+			}
+			catch (err) {
 				reject(err);
 			}
 			resolve(isValid);

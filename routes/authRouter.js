@@ -40,6 +40,7 @@ authRouter.route('/login')
 					});
 			}
 			else {
+				// wrong email and/or password
 				res.status(401).json(info);
 			}
 		})(req, res);

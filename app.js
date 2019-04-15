@@ -11,6 +11,7 @@ import './config/passport';
 
 import noteRouter from './routes/noteRouter';
 import authRouter from './routes/authRouter';
+import userRouter from './routes/userRouter';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,7 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 app.use('/api/notes', noteRouter);
-app.use('/auth', authRouter);
+app.use('/login', authRouter);
+app.use('/user', userRouter);
 
 app.get('/*', (req, res) => {
 	res.redirect('/');

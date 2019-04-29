@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
-app.use('/api/notes', noteRouter);
+app.use('/note', noteRouter);
 app.use('/login', authRouter);
 app.use('/user', userRouter);
 

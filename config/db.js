@@ -14,5 +14,5 @@ mongoose.connection.on('disconnected', () => {
 	console.log('mongoose disconnected');
 });
 
-import './models/noteModel';
-import './models/userModel';
+import '../models/noteModel';
+import '../models/userModel';

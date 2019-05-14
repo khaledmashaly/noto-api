@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 
-const dbUrl = 'mongodb://localhost:27017/noto';
-
-mongoose.connect(dbUrl, { useNewUrlParser: true });
+mongoose.connect(process.env.NOTO_DB_URL, { useNewUrlParser: true });
 
 mongoose.connection.on('connection', () => {
 	console.log('mongoose connected');

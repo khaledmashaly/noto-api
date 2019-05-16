@@ -4,8 +4,7 @@ const authController = {
 	async login(req, res) {
 		const done = async (err, user, info) => {
 			if (err) {
-				res.status(404).json(err);
-				return;
+				return res.status(403).json(err);
 			}
 
 			if (user) {
@@ -13,10 +12,11 @@ const authController = {
 					if (err) {
 						return res.status(403).json(err);
 					}
+					return res.status(200).end();
+				});
 			}
 			else {
-				// wrong email and/or password
-				res.status(401).json(info);
+				return res.status(403).json(info);
 			}
 		};
 

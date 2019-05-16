@@ -9,8 +9,7 @@ const userController = {
 			});
 			await user.setPassword(req.body.password);
 			await user.save();
-			const token = await user.generateToken();
-			res.status(200).json({ token });
+			res.status(201).end();
 		}
 		catch (err) {
 			res.status(500).json(err);

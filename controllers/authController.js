@@ -9,15 +9,10 @@ const authController = {
 			}
 
 			if (user) {
-				try {
-					// correct user and password
-					const token = await user.generateToken();
-					res.status(200).json({ token });
-				}
-				catch (e) {
-					// error in token generation
-					res.status(500).json(e);
-				}
+				req.login(user, err => {
+					if (err) {
+						return res.status(403).json(err);
+					}
 			}
 			else {
 				// wrong email and/or password

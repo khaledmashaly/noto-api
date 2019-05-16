@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema({
 	email: {
@@ -53,22 +52,6 @@ userSchema.methods.checkPassword = function(password) {
 			resolve(isValid);
 		};
 		crypto.pbkdf2(password, this.salt, this.iter, this.keyLen, 'sha512', compareKeys);
-	});
-};
-
-userSchema.methods.generateToken = function() {
-	return new Promise((resolve, reject) => {
-		const payload = {
-			id: this.id,
-			email: this.email
-		};
-		const cb = (err, token) => {
-			if (err) reject(err);
-			resolve(token);
-		};
-		jwt.sign(payload, process.env.JWT_SECRET, {
-			expiresIn: '7d'
-		}, cb);
 	});
 };
 

@@ -17,17 +17,17 @@ const userController = {
 		}
 	},
 	async getProfile(req, res) {
-		if (!req.payload.id) {
-			res.status(401).json({
-				message: 'UnauthorizedError: private profile'
-			});
+		if (!req.user) {
+			res.status(403).json(new Error('access denied: no logged user'));
 		}
 		else {
-			User.findById(req.payload.id).exec()
-				.then(user => {
-					res.status(200).json(user);
-				})
-				.catch(err => res.status(401).json(err));
+			try {
+				const user = await User.findById(req.user.id);
+				return res.status(200).json(user);
+			}
+			catch (err) {
+				return res.status(403).json(err);
+			}
 		}
 	}
 };

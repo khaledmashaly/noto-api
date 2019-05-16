@@ -5,7 +5,7 @@ const Note = mongoose.model('Note');
 const noteController = {
 	async getAll(req, res, next) {
 		try {
-			const ownerId = req.payload.id;
+			const ownerId = req.user.id;
 			const notes = await Note.find({ ownerId }).exec();
 			res.status(200).json(notes);
 		}

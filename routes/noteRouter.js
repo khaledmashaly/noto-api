@@ -1,10 +1,7 @@
 import { Router } from 'express';
 import noteController from '../controllers/noteController';
-import auth from '../config/jwt';
 
 const noteRouter = new Router();
-
-noteRouter.all('*', auth);
 
 noteRouter.route('/')
 	.get(noteController.getAll)

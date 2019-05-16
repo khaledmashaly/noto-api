@@ -19,8 +19,7 @@ const verifyUser = (username, password, done) => {
 						else {
 							done(null, false, { message: 'wrong password' });
 						}
-					})
-					.catch(err => done(err));
+					});
 			}
 		})
 		.catch(err => done(err));

@@ -11,6 +11,7 @@
   "author": "Khaled Mashaly",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.23.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "connect-mongodb-session": "^2.1.1",

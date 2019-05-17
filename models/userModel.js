@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import argon2 from 'argon2';
 
 const userSchema = new mongoose.Schema({
 	email: {
@@ -7,19 +8,10 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		unique: true
 	},
-	key: String,
-	salt: String,
-	iter: {
-		type: Number,
-		default: 100000
-	},
-	keyLen: {
-		type: Number,
-		default: 256
-	}
+	password: String
 });
 
-userSchema.methods.setPassword = function(password) {
+/* userSchema.methods.setPassword = function(password) {
 	return new Promise((resolve, reject) => {
 		const loginUser = (err, key) => {
 			if (err) reject(err);
@@ -35,9 +27,13 @@ userSchema.methods.setPassword = function(password) {
 
 		crypto.randomBytes(16, calculateHash);
 	});
+}; */
+
+userSchema.methods.setPassword = async function(password) {
+	this.password = await argon2.hash(password);
 };
 
-userSchema.methods.checkPassword = function(password) {
+/* userSchema.methods.checkPassword = function(password) {
 	return new Promise((resolve, reject) => {
 		const compareKeys = (err, generatedkey) => {
 			if (err) reject(err);
@@ -53,6 +49,10 @@ userSchema.methods.checkPassword = function(password) {
 		};
 		crypto.pbkdf2(password, this.salt, this.iter, this.keyLen, 'sha512', compareKeys);
 	});
+}; */
+
+userSchema.methods.checkPassword = async function(password) {
+	return await argon2.verify(this.password, password);
 };
 
 mongoose.model('User', userSchema);

@@ -1,9 +1,13 @@
 import { Router } from 'express';
+import userValidator from '../middleware/validators/userValidator';
 import userController from '../controllers/userController';
 
-const authRouter = new Router();
+const userRouter = new Router();
 
-authRouter.route('/').post(userController.create);
-authRouter.route('/profile').get(userController.getProfile);
+userRouter.route('/')
+	.post(userValidator.create, userController.create);
 
-export default authRouter;
+userRouter.route('/profile')
+	.get(userController.getProfile);
+
+export default userRouter;

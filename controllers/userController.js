@@ -15,6 +15,7 @@ const userController = {
 			res.status(500).json(err);
 		}
 	},
+
 	async getProfile(req, res) {
 		if (!req.user) {
 			res.status(403).json(new Error('access denied: no logged user'));

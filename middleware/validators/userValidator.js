@@ -20,6 +20,15 @@ const userValidator = {
 				.withMessage('password must be 8-20 characters long')
 			.trim();
 
+		body('fullname')
+			.exists({ checkNull: true })
+				.withMessage('fullname is required')
+			.not().isEmpty({ ignore_whitespace: true })
+				.withMessage('fullname is required')
+			.isLength({ min: 1, max: 250 })
+				.withMessage('fullname must be 1-250 characters long')
+			.trim();
+
 		next(req, res);
 	}
 };

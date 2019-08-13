@@ -16,10 +16,10 @@ const noteController = {
 
 	async create(req, res, next) {
 		try {
-			const ownerId = req.payload.id;
+			const ownerId = req.user.id;
 			const note = new Note({ ownerId });
 			const newNote = await note.save();
-			res.status(200).json({ id: newNote.id });
+			res.status(201).json({ id: newNote.id });
 		}
 		catch (err) {
 			next(err);

@@ -1,4 +1,4 @@
-import { body } from 'express-validator/check';
+import { body } from 'express-validator';
 
 const userValidator = {
 	create(req, res, next) {

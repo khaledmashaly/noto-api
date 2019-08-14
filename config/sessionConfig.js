@@ -7,10 +7,16 @@ const store = new Sessionstore(
 		uri: process.env.NOTO_DB_URL,
 		collection: process.env.NOTO_SESSION_COLLECTION
 	},
-	(err) => {
-		console.error(err);
+	(error) => {
+		if (error) {
+			console.error('Sessionstore error:', error);
+		}
 	}
 );
+
+store.on('error', (error) => {
+	console.error('Sessionstore error event:', error);
+});
 
 const sessionConfig = {
 	cookie: {

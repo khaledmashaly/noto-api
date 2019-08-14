@@ -13,8 +13,4 @@ app.get('*', (req, res) => {
 	res.redirect('/');
 });
 
-app.all('*', (req, res) => {
-	res.status(404).send({ msg: 'not found' });
-});
-
 export default app;

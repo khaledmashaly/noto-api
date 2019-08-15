@@ -1,19 +1,23 @@
 import HttpError from '../errors/HttpError';
-import ValidationError from '../errors/ValidationError';
 
 const errorHandler = (error, req, res, next) => {
 	if (error instanceof HttpError) {
-		res.status(error.httpStatus);
-		if (error instanceof ValidationError) {
-			res.json({ errors: error.errors });
+		res.status(error.status);
+		if (error.hasOwnProperty('errors')) {
+			return res.json({ errors: error.errors });
 		}
-		else {
-			res.end();
+		return res.end();
+	}
+	else if (error.name === 'MongoError') {
+		if (error.code === 11000) {
+			return res.status(422).json({ error: 'duplicate key' });
 		}
 	}
-	else {
-		next(error);
+	else if (error.name === 'ValidationError') {
+		return res.status(422).json({ errors: error.errors });
 	}
+
+	return res.status(500).json(error);
 };
 
 export default errorHandler;

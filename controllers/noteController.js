@@ -53,7 +53,7 @@ const noteController = {
 			const noteId = req.params.id;
 			const newNote = req.body;
 			await Note.findByIdAndUpdate(noteId, newNote, { new: true }).exec();
-			res.sendStatus(204);
+			res.status(204).end();
 		}
 		catch (err) {
 			next(err);

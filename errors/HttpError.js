@@ -1,6 +1,7 @@
 export default class HttpError extends Error {
-	constructor(msg, status) {
+	constructor(msg, status = 500) {
 		super(msg);
-		this.httpStatus = status || 500;
+		this.status = status;
+		this.time = Date.now();
 	}
 }

@@ -1,4 +1,4 @@
-import HttpError from '../errors/HttpError';
+import AuthenticationError from '../errors/AuthenticationError';
 
 const authenticationMiddleware = (req, res, next) => {
 	// allow login and register requests to be unauthenticated
@@ -7,18 +7,14 @@ const authenticationMiddleware = (req, res, next) => {
 		&&
 		req.method === 'POST'
 	) {
-		next();
+		return next();
 	}
-	else {
-		// if user is authenticated continue
-		if (req.user) {
-			next();
-		}
-		// otherwise throw an authentication error
-		else {
-			next(new HttpError('Authentication Error', 403));
-		}
+	// else if user is authenticated continue
+	if (req.user) {
+		return next();
 	}
+	// otherwise throw an authentication error
+	return next(new AuthenticationError('please login'));
 };
 
 export default authenticationMiddleware;

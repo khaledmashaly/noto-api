@@ -1,26 +1,21 @@
 import passport from 'passport';
+import AuthenticationError from '../errors/AuthenticationError';
 
 const authController = {
-	async login(req, res) {
-		const done = async (err, user, info) => {
-			if (err) {
-				return res.status(403).json(err);
-			}
+	async login(req, res, next) {
+		const authenticationCallback = async (error, user, info) => {
+			if (error) return next(new AuthenticationError(error));
+			if (!user) return next(new AuthenticationError(info));
 
-			if (user) {
-				req.login(user, err => {
-					if (err) {
-						return res.status(403).json(err);
-					}
-					return res.status(200).end();
-				});
-			}
-			else {
-				return res.status(403).json(info);
-			}
+			req.login(user, (loginError) => {
+				if (loginError) return next(new AuthenticationError(loginError));
+				return res.status(200).end();
+			});
+
+			return;
 		};
 
-		passport.authenticate('local', done)(req, res);
+		passport.authenticate('local', authenticationCallback)(req, res);
 	}
 };
 

@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import NotFoundError from '../errors/NotFoundError';
+
 const User = mongoose.model('User');
 
 const userController = {
-	async create(req, res) {
-		console.log('userController.create');
+	async create(req, res, next) {
 		try {
 			const user = new User({
 				email: req.body.email,
@@ -11,25 +12,23 @@ const userController = {
 			});
 			await user.setPassword(req.body.password);
 			await user.save();
-			res.status(201).end();
+			return res.status(201).end();
 		}
-		catch (err) {
-			res.status(500).json(err);
+		catch (error) {
+			return next(error);
 		}
 	},
 
-	async getProfile(req, res) {
-		if (!req.user) {
-			res.status(403).json(new Error('access denied: no logged user'));
+	async getProfile(req, res, next) {
+		try {
+			const user = await User.findById(req.user.id);
+			if (!user) {
+				return next(new NotFoundError('user not found'));
+			}
+			return res.status(200).json(user);
 		}
-		else {
-			try {
-				const user = await User.findById(req.user.id);
-				return res.status(200).json(user);
-			}
-			catch (err) {
-				return res.status(403).json(err);
-			}
+		catch (error) {
+			return next(error);
 		}
 	}
 };

@@ -8,15 +8,19 @@ const verifyUser = (username, password, done) => {
 	User.findOne({ email: username })
 		.then(user => {
 			if (!user) {
+				console.log('passport.verifyUser:', 'user not found');
 				done(null, false, { message: 'User not found' });
 			}
 			else {
+				console.log('passport.verifyUser:', 'user found');
 				user.checkPassword(password)
-					.then(isCorrect => {
+					.then((isCorrect) => {
 						if (isCorrect) {
+							console.log('passport.verifyUser:', 'correct password');
 							done(null, user);
 						}
 						else {
+							console.log('passport.verifyUser:', 'wrong password');
 							done(null, false, { message: 'wrong password' });
 						}
 					});

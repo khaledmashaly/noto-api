@@ -17,7 +17,11 @@ const noteController = {
 	async create(req, res, next) {
 		try {
 			const ownerId = req.user.id;
-			const note = new Note({ ownerId });
+			const note = new Note({
+				title: req.body.title,
+				body: req.body.body,
+				ownerId
+			});
 			const newNote = await note.save();
 			res.status(201).json({ id: newNote.id });
 		}

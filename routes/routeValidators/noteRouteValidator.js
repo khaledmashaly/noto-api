@@ -6,4 +6,7 @@ const noteRouteValidator = new Router();
 noteRouteValidator.route('/')
 	.post(noteValidator.create);
 
+noteRouteValidator.route('/:id')
+	.put(noteValidator.update);
+
 export default noteRouteValidator;

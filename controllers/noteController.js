@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import NotFoundError from '../errors/NotFoundError';
 
 const Note = mongoose.model('Note');
 
@@ -7,10 +8,10 @@ const noteController = {
 		try {
 			const ownerId = req.user.id;
 			const notes = await Note.find({ ownerId }).exec();
-			res.status(200).json(notes);
+			return res.status(200).json(notes);
 		}
 		catch (err) {
-			next(err);
+			return next(err);
 		}
 	},
 
@@ -23,10 +24,10 @@ const noteController = {
 				ownerId
 			});
 			const newNote = await note.save();
-			res.status(201).json({ id: newNote.id });
+			return res.status(201).json({ id: newNote.id });
 		}
 		catch (err) {
-			next(err);
+			return next(err);
 		}
 	},
 
@@ -34,10 +35,10 @@ const noteController = {
 		try {
 			const noteId = req.params.id;
 			const note = await Note.findById(noteId).exec();
-			res.status(200).json(note);
+			return res.status(200).json(note);
 		}
 		catch (err) {
-			next(err);
+			return next(err);
 		}
 	},
 
@@ -45,10 +46,10 @@ const noteController = {
 		try {
 			const noteId = req.params.id;
 			await Note.findByIdAndDelete(noteId).exec();
-			res.status(204).end();
+			return res.status(204).end();
 		}
 		catch (err) {
-			next(err);
+			return next(err);
 		}
 	},
 
@@ -56,11 +57,16 @@ const noteController = {
 		try {
 			const noteId = req.params.id;
 			const newNote = req.body;
-			await Note.findByIdAndUpdate(noteId, newNote, { new: true }).exec();
-			res.status(204).end();
+			const updatedNote = await Note.findByIdAndUpdate(
+				noteId,
+				newNote,
+				{ omitUndefined: true }
+			).exec();
+			if (!updatedNote) return next(new NotFoundError('note not found'));
+			return res.status(204).end();
 		}
 		catch (err) {
-			next(err);
+			return next(err);
 		}
 	}
 };

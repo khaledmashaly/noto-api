@@ -8,9 +8,11 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import './config/db';
 import './config/passport';
-import routes from './routes';
 import session from './config/sessionConfig';
 import authenticationMiddleware from './middleware/authenticationMiddleware';
+import routeValidators from './routes/routeValidators';
+import checkValidationErrors from './middleware/checkValidationErrors';
+import routeControllers from './routes/routeControllers';
 import errorHandler from './middleware/errorHandler';
 
 const app = express();
@@ -28,9 +30,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authenticationMiddleware);
-app.use(routes);
+app.use(routeValidators);
+app.use(checkValidationErrors);
+app.use(routeControllers);
 app.use(errorHandler);
 
-app.listen(port, () => {
-	console.log(`app running on port ${port}`);
-});
+app.listen(port, () => console.log(`app running on port ${port}`));

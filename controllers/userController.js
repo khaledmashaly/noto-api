@@ -3,9 +3,11 @@ const User = mongoose.model('User');
 
 const userController = {
 	async create(req, res) {
+		console.log('userController.create');
 		try {
 			const user = new User({
-				email: req.body.email
+				email: req.body.email,
+				fullname: req.body.fullname
 			});
 			await user.setPassword(req.body.password);
 			await user.save();

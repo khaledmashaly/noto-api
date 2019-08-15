@@ -1,7 +1,7 @@
 import { body } from 'express-validator';
 
 const userValidator = {
-	create(req, res, next) {
+	create: [
 		body('email')
 			.exists({ checkNull: true })
 				.withMessage('email is required')
@@ -9,7 +9,7 @@ const userValidator = {
 				.withMessage('email is required')
 			.isEmail()
 				.withMessage('email is not a valid email address')
-			.normalizeEmail();
+			.normalizeEmail(),
 
 		body('password')
 			.exists({ checkNull: true })
@@ -18,7 +18,7 @@ const userValidator = {
 				.withMessage('password is required')
 			.isLength({ min: 8, max: 20 })
 				.withMessage('password must be 8-20 characters long')
-			.trim();
+			.trim(),
 
 		body('fullname')
 			.exists({ checkNull: true })
@@ -27,10 +27,8 @@ const userValidator = {
 				.withMessage('fullname is required')
 			.isLength({ min: 1, max: 250 })
 				.withMessage('fullname must be 1-250 characters long')
-			.trim();
-
-		next(req, res);
-	}
+			.trim()
+	]
 };
 
 export default userValidator;

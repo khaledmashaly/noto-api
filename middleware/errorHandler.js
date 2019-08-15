@@ -1,10 +1,19 @@
 import HttpError from '../errors/HttpError';
+import ValidationError from '../errors/ValidationError';
 
-export default (err, req, res, next) => {
-	if (err instanceof HttpError) {
-		res.status(err.httpStatus).end();
+const errorHandler = (error, req, res, next) => {
+	if (error instanceof HttpError) {
+		res.status(error.httpStatus);
+		if (error instanceof ValidationError) {
+			res.json({ errors: error.errors });
+		}
+		else {
+			res.end();
+		}
 	}
 	else {
-		next(err);
+		next(error);
 	}
 };
+
+export default errorHandler;

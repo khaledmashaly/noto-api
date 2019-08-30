@@ -5,7 +5,7 @@ const noteSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
-			required: true
+			required: [true, 'title is required']
 		},
 		body: {
 			type: String,
@@ -16,7 +16,7 @@ const noteSchema = new mongoose.Schema(
 		},
 		ownerId: {
 			type: ObjectId,
-			required: true,
+			required: [true, 'ownerId is required'],
 			select: false
 		}
 	},
@@ -25,4 +25,4 @@ const noteSchema = new mongoose.Schema(
 	}
 );
 
-mongoose.model('Note', noteSchema);
+export default mongoose.model('Note', noteSchema);

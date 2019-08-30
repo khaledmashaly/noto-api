@@ -5,16 +5,16 @@ const userSchema = new mongoose.Schema(
 	{
 		email: {
 			type: String,
-			required: true,
+			required: [true, 'email is required'],
 			unique: true
 		},
 		password: {
 			type: String,
-			required: true
+			required: [true, 'password is required']
 		},
 		fullname: {
 			type: String,
-			required: true
+			required: [true, 'fullname is required']
 		}
 	}
 );
@@ -27,4 +27,4 @@ userSchema.methods.checkPassword = async function(password) {
 	return await argon2.verify(this.password, password);
 };
 
-mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);

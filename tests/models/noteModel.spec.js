@@ -1,5 +1,6 @@
-import NoteModel from '../../models/noteModel';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import NoteModel from '../../models/noteModel';
 
 describe('note', () => {
 	describe('title', () => {

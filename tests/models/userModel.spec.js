@@ -1,5 +1,6 @@
-import UserModel from '../../models/userModel';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import UserModel from '../../models/userModel';
 
 describe('user', () => {
 	describe('email', () => {

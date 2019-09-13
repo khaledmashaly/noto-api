@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import helmet from 'helmet';
 import compression from 'compression';
-import logger from 'morgan';
+import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import './config/db';
@@ -20,7 +20,7 @@ const port = process.env.PORT || '3000';
 
 app.use(helmet());
 app.use(compression());
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

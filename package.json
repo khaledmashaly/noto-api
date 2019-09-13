@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon --signal SIGINT --exec babel-node app.js",
-    "test": "mocha tests/*/**.js --require @babel/register",
+    "test": "mocha tests/globalHooks.js tests/**/*.js --require @babel/register",
     "build": "cross-env NODE_ENV=production gulp && node dist/app.js"
   },
   "author": "Khaled Mashaly",

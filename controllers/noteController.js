@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
 import NotFoundError from '../errors/NotFoundError';
-
-const Note = mongoose.model('Note');
+import Note from '../models/noteModel';
 
 const noteController = {
 	async getAll(req, res, next) {

@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
 import NotFoundError from '../errors/NotFoundError';
-
-const User = mongoose.model('User');
+import User from '../models/userModel';
 
 const userController = {
 	async create(req, res, next) {

@@ -2,17 +2,6 @@ import NotFoundError from '../errors/NotFoundError';
 import Note from '../models/noteModel';
 
 const noteController = {
-	async getAll(req, res, next) {
-		try {
-			const ownerId = req.user.id;
-			const notes = await Note.find({ ownerId }).exec();
-			return res.status(200).json(notes);
-		}
-		catch (err) {
-			return next(err);
-		}
-	},
-
 	async create(req, res, next) {
 		try {
 			const ownerId = req.user.id;
@@ -42,11 +31,11 @@ const noteController = {
 		}
 	},
 
-	async delete(req, res, next) {
+	async getAll(req, res, next) {
 		try {
-			const noteId = req.params.id;
-			await Note.findByIdAndDelete(noteId).exec();
-			return res.status(204).end();
+			const ownerId = req.user.id;
+			const notes = await Note.find({ ownerId }).exec();
+			return res.status(200).json(notes);
 		}
 		catch (err) {
 			return next(err);
@@ -63,6 +52,17 @@ const noteController = {
 				{ omitUndefined: true }
 			).exec();
 			if (!updatedNote) return next(new NotFoundError('note not found'));
+			return res.status(204).end();
+		}
+		catch (err) {
+			return next(err);
+		}
+	},
+
+	async delete(req, res, next) {
+		try {
+			const noteId = req.params.id;
+			await Note.findByIdAndDelete(noteId).exec();
 			return res.status(204).end();
 		}
 		catch (err) {

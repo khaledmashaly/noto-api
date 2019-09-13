@@ -24,7 +24,9 @@ const noteController = {
 				ownerId
 			});
 			const newNote = await note.save();
-			return res.status(201).json({ id: newNote.id });
+			res.status(201);
+			res.set('Location', '/note/' + newNote.id);
+			res.end();
 		}
 		catch (err) {
 			return next(err);

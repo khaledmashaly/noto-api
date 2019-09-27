@@ -5,12 +5,11 @@ const noteController = {
 	async create(req, res, next) {
 		try {
 			const ownerId = req.user.id;
-			const note = new Note({
+			const newNote = await Note.create({
 				title: req.body.title,
 				body: req.body.body,
 				ownerId
 			});
-			const newNote = await note.save();
 			res.status(201);
 			res.set('Location', '/note/' + newNote.id);
 			res.end();
@@ -51,7 +50,7 @@ const noteController = {
 				newNote,
 				{ omitUndefined: true }
 			).exec();
-			if (!updatedNote) return next(new NotFoundError('note not found'));
+			if (!updatedNote) throw new NotFoundError('note not found');
 			return res.status(204).end();
 		}
 		catch (err) {

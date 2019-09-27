@@ -10,9 +10,11 @@ const noteController = {
 				body: req.body.body,
 				ownerId
 			});
-			res.status(201);
-			res.set('Location', '/note/' + newNote.id);
-			res.end();
+
+			return res
+					.set('Location', '/note/' + newNote.id)
+					.status(201)
+					.end();
 		}
 		catch (err) {
 			return next(err);

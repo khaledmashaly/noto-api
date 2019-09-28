@@ -2,8 +2,8 @@ import passport from 'passport';
 import AuthenticationError from '../errors/AuthenticationError';
 
 const authController = {
-	async login(req, res, next) {
-		const authenticationCallback = async (error, user, info) => {
+	login(req, res, next) {
+		const authenticationCallback = (error, user, info) => {
 			if (error) return next(new AuthenticationError(error));
 			if (!user) return next(new AuthenticationError(info));
 

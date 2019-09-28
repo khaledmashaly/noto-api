@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import UserModel from '../../models/userModel';
+import User from '../../models/userModel';
 
 describe('user', () => {
 	describe('email', () => {
 		it('should be invalid if email is empty', (done) => {
-			const user = new UserModel({
+			const user = new User({
 				password: 'password',
 				fullname: 'Khaled Maged'
 			});
@@ -30,7 +30,7 @@ describe('user', () => {
 
 	describe('password', () => {
 		it('should be invalid if password is empty', (done) => {
-			const user = new UserModel({
+			const user = new User({
 				email: 'user@domain.com',
 				fullname: 'Khaled Maged'
 			});
@@ -55,7 +55,7 @@ describe('user', () => {
 
 	describe('fullname', () => {
 		it('should be invalid if fullname is empty', (done) => {
-			const user = new UserModel({
+			const user = new User({
 				email: 'user@domain.com',
 				password: 'password'
 			});
@@ -80,7 +80,7 @@ describe('user', () => {
 
 	describe('setPassword', () => {
 		it('should set user.password to an argon2 hash', async () => {
-			const user = new UserModel();
+			const user = new User();
 			await user.setPassword('password');
 
 			expect(user.password, 'user.password is not set')
@@ -94,7 +94,7 @@ describe('user', () => {
 
 	describe('checkPassword', () => {
 		it('should return true if password matches', async () => {
-			const user = new UserModel();
+			const user = new User();
 			await user.setPassword('password');
 			const passwordMatch = await user.checkPassword('password');
 
@@ -107,7 +107,7 @@ describe('user', () => {
 		});
 
 		it('should return false if password doesn\'t match', async () => {
-			const user = new UserModel();
+			const user = new User();
 			await user.setPassword('password');
 			const passwordMatch = await user.checkPassword('password2');
 

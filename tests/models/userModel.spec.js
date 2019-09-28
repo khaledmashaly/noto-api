@@ -82,7 +82,7 @@ describe('user', () => {
 
 	describe('#setPassword', () => {
 		it('should set user.password to hash', async () => {
-			const hashStub = sinon.stub(argon2, 'hash').returns('hashed-password');
+			const hashStub = sinon.stub(argon2, 'hash').resolves('hashed-password');
 
 			const user = new User();
 			await user.setPassword('password');
@@ -97,31 +97,22 @@ describe('user', () => {
 		});
 	});
 
-	describe('checkPassword', () => {
-		it('should return true if password matches', async () => {
+	describe('#checkPassword', () => {
+		it('should call argon2.verify and return a boolean', async () => {
+			const verifyStub = sinon.stub(argon2, 'verify').resolves(true);
+
 			const user = new User();
-			await user.setPassword('password');
+			user.password = 'hashed-password';
+
 			const passwordMatch = await user.checkPassword('password');
 
-			expect(passwordMatch, 'passwordMatch is not set')
-				.to.exist;
-			expect(passwordMatch, 'passwordMatch is not true')
-				.to.be.true;
+			sinon.assert.calledOnce(verifyStub);
+			sinon.assert.calledWithExactly(verifyStub, 'hashed-password', 'password');
 
-			return true;
-		});
+			expect(passwordMatch, 'passwordMatch is not set').to.exist;
+			expect(passwordMatch, 'passwordMatch is not true').to.be.true;
 
-		it('should return false if password doesn\'t match', async () => {
-			const user = new User();
-			await user.setPassword('password');
-			const passwordMatch = await user.checkPassword('password2');
-
-			expect(passwordMatch, 'passwordMatch is not set')
-				.to.exist;
-			expect(passwordMatch, 'passwordMatch is not false')
-				.to.be.false;
-
-			return true;
+			return;
 		});
 	});
 });

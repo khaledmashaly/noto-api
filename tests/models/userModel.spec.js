@@ -1,6 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import User from '../../models/userModel';
+import argon2 from 'argon2';
 
 describe('user', () => {
 	describe('email', () => {
@@ -78,17 +80,20 @@ describe('user', () => {
 		});
 	});
 
-	describe('setPassword', () => {
-		it('should set user.password to an argon2 hash', async () => {
+	describe('#setPassword', () => {
+		it('should set user.password to hash', async () => {
+			const hashStub = sinon.stub(argon2, 'hash').returns('hashed-password');
+
 			const user = new User();
 			await user.setPassword('password');
 
-			expect(user.password, 'user.password is not set')
-				.to.exist;
-			expect(user.password.length, 'user.password.length is not 95')
-				.to.equal(95);
+			sinon.assert.calledOnce(hashStub);
+			sinon.assert.calledWithExactly(hashStub, 'password');
 
-			return true;
+			expect(user.password, 'user.password is not set').to.exist;
+			expect(user.password, 'user.password doesn\'t match hash').to.equal('hashed-password');
+
+			return;
 		});
 	});
 

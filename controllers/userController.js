@@ -1,5 +1,5 @@
-import NotFoundError from '../errors/NotFoundError';
 import User from '../models/userModel';
+import NotFoundError from '../errors/NotFoundError';
 
 const userController = {
 	async create(req, res, next) {

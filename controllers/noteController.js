@@ -1,5 +1,5 @@
-import NotFoundError from '../errors/NotFoundError';
 import Note from '../models/noteModel';
+import NotFoundError from '../errors/NotFoundError';
 
 const noteController = {
 	async create(req, res, next) {

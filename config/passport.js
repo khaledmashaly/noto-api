@@ -1,8 +1,6 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import mongoose from 'mongoose';
-
-const User = mongoose.model('User');
+import User from '../models/userModel';
 
 const verifyUser = (username, password, done) => {
 	User.findOne({ email: username })

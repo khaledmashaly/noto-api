@@ -14,10 +14,12 @@ import routeValidators from './routes/routeValidators';
 import checkValidationErrors from './middleware/checkValidationErrors';
 import routeControllers from './routes/routeControllers';
 import errorHandler from './middleware/errorHandler';
+import cors from 'cors';
 
 const app = express();
 const port = process.env.PORT || '3000';
 
+app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(morgan('dev'));

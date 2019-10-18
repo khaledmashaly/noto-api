@@ -22,7 +22,7 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "express-validator": "^6.1.1",
-    "helmet": "^3.18.0",
+    "helmet": "^3.21.1",
     "mongodb": "^3.2.4",
     "mongoose": "^5.5.9",
     "morgan": "^1.9.1",

@@ -4,7 +4,9 @@
   "description": "noto server api",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --signal SIGINT --exec babel-node app.js",
+    "start": "npm run dev:db-seed && npm run dev:start",
+    "dev:start": "nodemon --signal SIGINT --exec babel-node app.js",
+    "dev:db-seed": "babel-node config/dbSeeder.js",
     "test": "mocha tests/globalHooks.js tests/**/*.js --require @babel/register",
     "build": "cross-env NODE_ENV=production gulp && node dist/app.js"
   },

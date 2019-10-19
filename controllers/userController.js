@@ -19,7 +19,13 @@ const userController = {
 
 	async getProfile(req, res, next) {
 		try {
-			const user = await User.findById(req.user.id);
+			const user = await User.findById(
+				req.user.id,
+				{
+					password: 0,
+					__v: 0
+				}
+			);
 			if (!user) {
 				return next(new NotFoundError('user not found'));
 			}

@@ -6,7 +6,8 @@ const MongoStore = connectMongo(session);
 
 const sessionConfig = {
 	cookie: {
-		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+		sameSite: 'none',
+		maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 	},
 	name: 'session-id',
 	resave: true,

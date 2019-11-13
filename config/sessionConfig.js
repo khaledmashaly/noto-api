@@ -13,7 +13,7 @@ const sessionConfig = {
 	secret: process.env.EXPRESS_SESSION_SECRET,
 	store: new MongoStore({
 		mongooseConnection: mongoose.connection,
-		secret: 'f326c8d1faacb0fab6711831daf9ef25250af65906e61928afd26ea96fdb2739'
+		secret: process.env.NOTO_MONGO_SESSION_SECRET
 	})
 };
 

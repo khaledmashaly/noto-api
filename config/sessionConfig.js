@@ -6,11 +6,12 @@ const MongoStore = connectMongo(session);
 
 const sessionConfig = {
 	cookie: {
-		sameSite: 'none',
+		sameSite: false,
 		maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 	},
 	name: 'session-id',
 	resave: true,
+	saveUninitialized: false,
 	secret: process.env.NOTO_EXPRESS_SESSION_SECRET,
 	store: new MongoStore({
 		mongooseConnection: mongoose.connection,

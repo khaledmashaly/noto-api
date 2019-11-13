@@ -11,7 +11,7 @@ const sessionConfig = {
 	},
 	name: 'session-id',
 	resave: true,
-	secret: process.env.EXPRESS_SESSION_SECRET,
+	secret: process.env.NOTO_EXPRESS_SESSION_SECRET,
 	store: new MongoStore({
 		mongooseConnection: mongoose.connection,
 		secret: process.env.NOTO_MONGO_SESSION_SECRET

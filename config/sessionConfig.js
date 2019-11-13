@@ -1,22 +1,8 @@
 import session from 'express-session';
-import mongoStore from 'connect-mongodb-session';
+import connectMongo from 'connect-mongo';
+import mongoose from 'mongoose';
 
-const Sessionstore = mongoStore(session);
-const store = new Sessionstore(
-	{
-		uri: process.env.NOTO_DB_URL,
-		collection: process.env.NOTO_SESSION_COLLECTION
-	},
-	(error) => {
-		if (error) {
-			console.error('Sessionstore error:', error);
-		}
-	}
-);
-
-store.on('error', (error) => {
-	console.error('Sessionstore error event:', error);
-});
+const MongoStore = connectMongo(session);
 
 const sessionConfig = {
 	cookie: {
@@ -24,9 +10,11 @@ const sessionConfig = {
 	},
 	name: 'session-id',
 	resave: true,
-	saveUninitialized: true,
 	secret: process.env.EXPRESS_SESSION_SECRET,
-	store
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection,
+		secret: 'f326c8d1faacb0fab6711831daf9ef25250af65906e61928afd26ea96fdb2739'
+	})
 };
 
 export default session(sessionConfig);

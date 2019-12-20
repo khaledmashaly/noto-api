@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import User from '../models/userModel';
+import logger from './logger';
 
 const seedDB = async () => {
 	try {
@@ -13,8 +14,8 @@ const seedDB = async () => {
 		const userCount = await User.countDocuments().exec();
 
 		if (userCount === 0) {
-			console.log('dbSeeder.js: no users in database');
-			console.log('dbSeeder.js: seeding admin user...');
+			logger.warn('dbSeeder.js: no users in database');
+			logger.warn('dbSeeder.js: seeding admin user...');
 
 			const admin = new User({
 				email: process.env.NOTO_ADMIN_EMAIL,
@@ -25,11 +26,11 @@ const seedDB = async () => {
 
 			await admin.save();
 
-			console.log('dbSeeder.js: successfully seeded admin user...');
+			logger.warn('dbSeeder.js: successfully seeded admin user...');
 		}
 		else {
-			console.log('dbSeeder.js: there are users in database');
-			console.log('dbSeeder.js: will not seed admin user');
+			logger.warn('dbSeeder.js: there are users in database');
+			logger.warn('dbSeeder.js: will not seed admin user');
 		}
 
 		await mongoose.connection.close();
@@ -37,7 +38,7 @@ const seedDB = async () => {
 		process.exit(0);
 	}
 	catch (e) {
-		console.log(e);
+		logger.error('error while seeding db:', e);
 		process.exit(1);
 	}
 };

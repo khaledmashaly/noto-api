@@ -15,6 +15,7 @@ import checkValidationErrors from './middleware/checkValidationErrors';
 import routeControllers from './routes/routeControllers';
 import errorHandler from './middleware/errorHandler';
 import cors from 'cors';
+import logger from './config/logger';
 
 const app = express();
 const port = process.env.PORT || '3000';
@@ -40,4 +41,4 @@ app.use(checkValidationErrors);
 app.use(routeControllers);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`app running on port ${port}`));
+app.listen(port, () => logger.info(`app running on port ${port}`));

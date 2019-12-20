@@ -7,11 +7,15 @@
   },
   "main": "app.js",
   "scripts": {
-    "start": "npm run dev:db-seed && npm run dev:start",
+    "prestart": "npm run prod:db-seed",
+    "start": "npm run prod:start",
+    "predev:start": "npm run dev:db-seed",
     "dev:start": "nodemon --signal SIGINT --exec babel-node app.js",
     "dev:db-seed": "babel-node config/dbSeeder.js",
+    "prod:start": "node dist/app.js",
+    "prod:db-seed": "node dist/config/dbSeeder.js",
     "test": "mocha tests/globalHooks.js tests/**/*.js --require @babel/register",
-    "build": "cross-env NODE_ENV=production gulp && node dist/app.js"
+    "build": "cross-env NODE_ENV=production gulp"
   },
   "author": "Khaled Mashaly",
   "license": "ISC",

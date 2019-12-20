@@ -4,7 +4,15 @@ import babel from 'gulp-babel';
 import rimraf from 'rimraf';
 
 const paths = {
-	src: ['app.js', 'routes/*.js', 'db/*.js'],
+	src: [
+		'app.js',
+		'config/**/*.js',
+		'controllers/**/*.js',
+		'errors/**/*.js',
+		'middleware/**/*.js',
+		'models/**/*.js',
+		'routes/**/*.js'
+	],
 	dest: ['dist/']
 };
 

@@ -27,4 +27,4 @@ userSchema.methods.checkPassword = async function(password) {
 	return await argon2.verify(this.password, password);
 };
 
-export default mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);

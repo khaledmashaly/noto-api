@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import NoteModel from '../../models/noteModel';
+import { Note } from '../../models/noteModel';
 
 describe('note', () => {
 	describe('title', () => {
 		it('should be invalid if title is empty', (done) => {
-			const note = new NoteModel({
+			const note = new Note({
 				ownerId: '5d55847007e7fe30baac1767'
 			});
 
@@ -29,7 +29,7 @@ describe('note', () => {
 
 	describe('ownerId', () => {
 		it('should be invalid if ownerId is empty', (done) => {
-			const note = new NoteModel({
+			const note = new Note({
 				title: 'hellooooo'
 			});
 
@@ -51,7 +51,7 @@ describe('note', () => {
 		});
 
 		it('should be invalid if ownerId is not an ObjectId', (done) => {
-			const note = new NoteModel({
+			const note = new Note({
 				title: 'hellooooo',
 				ownerId: 'ret'
 			});

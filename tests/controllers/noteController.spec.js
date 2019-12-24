@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import noteController from '../../controllers/noteController';
-import Note from '../../models/noteModel';
+import { Note } from '../../models/noteModel';
 import NotFoundError from '../../errors/NotFoundError';
 
 describe('noteController', () => {

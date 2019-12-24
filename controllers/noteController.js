@@ -1,4 +1,4 @@
-import Note from '../models/noteModel';
+import { Note } from '../models/noteModel';
 import NotFoundError from '../errors/NotFoundError';
 
 const noteController = {

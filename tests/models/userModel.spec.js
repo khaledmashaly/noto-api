@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import User from '../../models/userModel';
+import { User } from '../../models/userModel';
 import argon2 from 'argon2';
 
 describe('user', () => {

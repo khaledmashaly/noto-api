@@ -12,6 +12,7 @@ const noteController = {
 			});
 
 			return res
+					.json(newNote)
 					.set('Location', '/note/' + newNote.id)
 					.status(201)
 					.end();

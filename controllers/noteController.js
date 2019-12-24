@@ -12,9 +12,9 @@ const noteController = {
 			});
 
 			return res
-					.json(newNote)
-					.set('Location', '/note/' + newNote.id)
 					.status(201)
+					.set('Location', '/note/' + newNote.id)
+					.json(newNote)
 					.end();
 		}
 		catch (err) {

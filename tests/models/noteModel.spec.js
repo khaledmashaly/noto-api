@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { Note } from '../../models/noteModel';
+import { Note, NOTE_STATE } from '../../models/noteModel';
 
 describe('note', () => {
 	describe('title', () => {
@@ -18,6 +18,30 @@ describe('note', () => {
 					.to.exist;
 				expect(validationError.errors.title.message)
 					.to.equal('title is required', 'error message is wrong');
+			}
+			catch (e) {
+				return done(e);
+			}
+
+			return done();
+		});
+	});
+
+	describe('state', () => {
+		it(`should be invalid if not one of: ${NOTE_STATE.join(', ')}`, (done) => {
+			const note = new Note({
+				state: 'NOTHING'
+			});
+
+			const validationError = note.validateSync();
+
+			try {
+				expect(validationError, 'validationError is undefined')
+					.to.exist;
+				expect(validationError.errors.state, 'errors.state doesn\'t exist')
+					.to.exist;
+				expect(validationError.errors.state.message)
+					.to.equal('invalid value for note.state', 'error message is wrong');
 			}
 			catch (e) {
 				return done(e);

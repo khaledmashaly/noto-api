@@ -1,9 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import noteController from '../../controllers/noteController';
-import { Note } from '../../models/noteModel';
-import NotFoundError from '../../errors/NotFoundError';
+import noteController from '../../src/controllers/noteController';
+import { Note } from '../../src/models/noteModel';
+import NotFoundError from '../../src/errors/NotFoundError';
 
 describe('noteController', () => {
 	describe('#create', () => {

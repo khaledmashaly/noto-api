@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { Note, NOTE_STATE } from '../../models/noteModel';
+import { Note, NOTE_STATE } from '../../src/models/noteModel';
 
 describe('note', () => {
 	describe('title', () => {

@@ -17,7 +17,22 @@ const errorHandler = (error, req, res, next) => {
 		return res.status(422).json({ errors: error.errors });
 	}
 
-	return res.status(500).json(error);
+	const errorResponse = {
+		error: 'server error'
+	};
+
+	if (process.env.NODE_ENV === 'development') {
+		errorResponse.error = {
+			name: error.name,
+			message: error.message,
+			fileName: error.fileName,
+			lineNumber: error.lineNumber,
+			columnNumber: error.columnNumber,
+			stack: error.stack
+		};
+	}
+
+	return res.status(500).json(errorResponse);
 };
 
 export default errorHandler;

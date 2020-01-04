@@ -1,15 +1,16 @@
-import { Note } from '../models/noteModel';
-import NotFoundError from '../errors/NotFoundError';
+import NoteService from '../services/note-service';
+
+const noteService = new NoteService();
 
 const noteController = {
 	async create(req, res, next) {
 		try {
-			const ownerId = req.user.id;
-			const newNote = await Note.create({
+			const createNoteDTO = {
 				title: req.body.title,
-				body: req.body.body,
-				ownerId
-			});
+				body: req.body.body
+			};
+
+			const newNote = await noteService.saveOne(createNoteDTO, req.user.id);
 
 			return res
 					.status(201)
@@ -25,7 +26,7 @@ const noteController = {
 	async get(req, res, next) {
 		try {
 			const noteId = req.params.id;
-			const note = await Note.findById(noteId).exec();
+			const note = await noteService.getOne(noteId);
 			return res.status(200).json(note);
 		}
 		catch (err) {
@@ -36,7 +37,7 @@ const noteController = {
 	async getAll(req, res, next) {
 		try {
 			const ownerId = req.user.id;
-			const notes = await Note.find({ ownerId }).exec();
+			const notes = await noteService.getMany(ownerId);
 			return res.status(200).json(notes);
 		}
 		catch (err) {
@@ -47,13 +48,8 @@ const noteController = {
 	async update(req, res, next) {
 		try {
 			const noteId = req.params.id;
-			const newNote = req.body;
-			const updatedNote = await Note.findByIdAndUpdate(
-				noteId,
-				newNote,
-				{ omitUndefined: true }
-			).exec();
-			if (!updatedNote) throw new NotFoundError('note not found');
+			const updatedNote = req.body;
+			await noteService.updateOne(updatedNote, noteId);
 			return res.status(204).end();
 		}
 		catch (err) {
@@ -64,7 +60,7 @@ const noteController = {
 	async delete(req, res, next) {
 		try {
 			const noteId = req.params.id;
-			await Note.findByIdAndDelete(noteId).exec();
+			await noteService.deleteOne(noteId);
 			return res.status(204).end();
 		}
 		catch (err) {

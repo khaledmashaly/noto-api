@@ -20,6 +20,7 @@
   "author": "Khaled Mashaly",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.0.0",
     "argon2": "^0.23.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",

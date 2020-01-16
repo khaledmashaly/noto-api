@@ -20,13 +20,12 @@ export default class NoteService {
 		return this.noteModel.find({ ownerId: userId }).exec();
 	}
 
-	async updateOne(updatedNote, noteId) {
+	async updateOne(updatedNoteDTO, noteId) {
 		const oldNote = await this.getOne(noteId);
 
-		const pathsToUpdate = ['title', 'body'];
-		for (const path of pathsToUpdate) {
-			if (updatedNote[path] !== undefined && updatedNote[path] !== null) {
-				oldNote[path] = updatedNote[path];
+		for (const key of Object.keys(updatedNoteDTO)) {
+			if (updatedNoteDTO[key] !== null) {
+				oldNote[key] = updatedNoteDTO[key];
 			}
 		}
 

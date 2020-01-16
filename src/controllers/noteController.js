@@ -1,16 +1,15 @@
 import NoteService from '../services/note-service';
+import AddNoteDTO from '../dtos/add-note-dto';
+import UpdateNoteDTO from '../dtos/update-note-dto';
 
 const noteService = new NoteService();
 
 const noteController = {
 	async create(req, res, next) {
 		try {
-			const createNoteDTO = {
-				title: req.body.title,
-				body: req.body.body
-			};
+			const addNoteDTO = await AddNoteDTO.fromRequestBody(req.body);
 
-			const newNote = await noteService.saveOne(createNoteDTO, req.user.id);
+			const newNote = await noteService.saveOne(addNoteDTO, req.user.id);
 
 			return res
 					.status(201)
@@ -25,8 +24,8 @@ const noteController = {
 
 	async get(req, res, next) {
 		try {
-			const noteId = req.params.id;
-			const note = await noteService.getOne(noteId);
+			const note = await noteService.getOne(req.params.id);
+
 			return res.status(200).json(note);
 		}
 		catch (err) {
@@ -36,8 +35,8 @@ const noteController = {
 
 	async getAll(req, res, next) {
 		try {
-			const ownerId = req.user.id;
-			const notes = await noteService.getMany(ownerId);
+			const notes = await noteService.getMany(req.user.id);
+
 			return res.status(200).json(notes);
 		}
 		catch (err) {
@@ -47,9 +46,10 @@ const noteController = {
 
 	async update(req, res, next) {
 		try {
-			const noteId = req.params.id;
-			const updatedNote = req.body;
-			await noteService.updateOne(updatedNote, noteId);
+			const updatedNoteDTO = await UpdateNoteDTO.fromRequestBody(req.body);
+
+			await noteService.updateOne(updatedNoteDTO, req.params.id);
+
 			return res.status(204).end();
 		}
 		catch (err) {
@@ -59,8 +59,8 @@ const noteController = {
 
 	async delete(req, res, next) {
 		try {
-			const noteId = req.params.id;
-			await noteService.deleteOne(noteId);
+			await noteService.deleteOne(req.params.id);
+
 			return res.status(204).end();
 		}
 		catch (err) {

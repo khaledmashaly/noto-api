@@ -5,9 +5,9 @@ export default class NoteService {
 		this.noteModel = Note;
 	}
 
-	saveOne(note, ownerId) {
+	saveOne(addNoteDTO, ownerId) {
 		return this.noteModel.create({
-			...note,
+			...addNoteDTO,
 			ownerId
 		});
 	}

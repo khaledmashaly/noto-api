@@ -10,12 +10,10 @@ import './config/db';
 import './config/passport';
 import session from './config/sessionConfig';
 import authenticationMiddleware from './middleware/authenticationMiddleware';
-import routeValidators from './routes/routeValidators';
-import checkValidationErrors from './middleware/checkValidationErrors';
-import routeControllers from './routes/routeControllers';
 import errorHandler from './middleware/errorHandler';
 import cors from 'cors';
 import logger from './config/logger';
+import routers from './routers';
 
 const app = express();
 const port = process.env.PORT || '3000';
@@ -36,9 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authenticationMiddleware);
-app.use(routeValidators);
-app.use(checkValidationErrors);
-app.use(routeControllers);
+app.use(routers);
 app.use(errorHandler);
 
 app.listen(port, () => logger.info(`app running on port ${port}`));

@@ -11,7 +11,7 @@ const paths = {
 		'errors/**/*.js',
 		'middleware/**/*.js',
 		'models/**/*.js',
-		'routes/**/*.js'
+		'routers/**/*.js'
 	],
 	dest: ['dist/']
 };

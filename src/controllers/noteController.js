@@ -9,7 +9,7 @@ const noteController = {
 		try {
 			const addNoteDTO = await AddNoteDTO.fromRequestBody(req.body);
 
-			const newNote = await noteService.saveOne(req.user.id, addNoteDTO);
+			const newNote = await noteService.addOne(req.user, addNoteDTO);
 
 			return res
 					.status(201)
@@ -24,7 +24,7 @@ const noteController = {
 
 	async get(req, res, next) {
 		try {
-			const note = await noteService.getOne(req.user.id, req.params.id);
+			const note = await noteService.getOne(req.user, req.params.id);
 
 			return res.status(200).json(note);
 		}
@@ -35,7 +35,7 @@ const noteController = {
 
 	async getAll(req, res, next) {
 		try {
-			const notes = await noteService.getMany(req.user.id);
+			const notes = await noteService.getMany(req.user);
 
 			return res.status(200).json(notes);
 		}
@@ -48,7 +48,7 @@ const noteController = {
 		try {
 			const updatedNoteDTO = await UpdateNoteDTO.fromRequestBody(req.body);
 
-			await noteService.updateOne(req.user.id, updatedNoteDTO, req.params.id);
+			await noteService.updateOne(req.user, updatedNoteDTO, req.params.id);
 
 			return res.status(204).end();
 		}
@@ -59,7 +59,7 @@ const noteController = {
 
 	async delete(req, res, next) {
 		try {
-			await noteService.deleteOne(req.user.id, req.params.id);
+			await noteService.deleteOne(req.user, req.params.id);
 
 			return res.status(204).end();
 		}

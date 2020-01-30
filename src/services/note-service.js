@@ -15,6 +15,7 @@ export default class NoteService {
 	 * @return {Promise} resolves to the added document
 	 */
 	addOne(user, addNoteDTO) {
+		console.log('useeeeeeeeeeer:', user);
 		return this.noteModel.create({
 			...addNoteDTO,
 			ownerId: user.id

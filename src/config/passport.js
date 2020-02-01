@@ -4,7 +4,7 @@ import { User } from '../models/userModel';
 
 const verifyUser = (username, password, done) => {
 	User.findOne({ email: username })
-		.then(user => {
+		.then((user) => {
 			if (!user) {
 				done(null, false, { message: 'User not found' });
 			}
@@ -20,7 +20,7 @@ const verifyUser = (username, password, done) => {
 					});
 			}
 		})
-		.catch(err => done(err));
+		.catch((err) => done(err));
 };
 
 const localStrategy = new Strategy({

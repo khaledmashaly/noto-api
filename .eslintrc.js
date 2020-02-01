@@ -18,10 +18,10 @@ module.exports = {
 		'import/resolver': 'node'
 	},
 	rules: {
-		'arrow-parens': 'off',
 		'brace-style': ['error', 'stroustrup'],
-		'comma-dangle': 'off',
-		'indent': 'off',
+		'comma-dangle': ['error', 'never'],
+		'indent': ['error', 'tab'],
+		'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
 		'max-len': 'off',
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
 		'no-tabs': 'off',

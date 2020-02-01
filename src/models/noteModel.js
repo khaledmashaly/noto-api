@@ -28,8 +28,7 @@ const noteSchema = new mongoose.Schema(
 		},
 		ownerId: {
 			type: ObjectId,
-			required: [true, 'note.ownerId is required'],
-			select: false
+			required: [true, 'note.ownerId is required']
 		}
 	},
 	{

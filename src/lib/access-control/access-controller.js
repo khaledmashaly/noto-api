@@ -28,7 +28,7 @@ class AccessController {
 	 * @private
 	 */
 	owns(user, entity) {
-		return user.id === entity.ownerId;
+		return user._id.toString() === entity.ownerId.toString();
 	}
 }
 

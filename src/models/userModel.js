@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import argon2 from 'argon2';
+import defaultSchemaOptions from './default-schema-options';
 
 const userSchema = new mongoose.Schema(
 	{
@@ -16,6 +17,9 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: [true, 'fullname is required']
 		}
+	},
+	{
+		...defaultSchemaOptions
 	}
 );
 

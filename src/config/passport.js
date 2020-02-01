@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { User } from '../models/userModel';
+import { User } from '../models/user-model';
 
 const verifyUser = (username, password, done) => {
 	User.findOne({ email: username })

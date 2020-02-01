@@ -1,4 +1,4 @@
-import { Note } from '../models/noteModel';
+import { Note } from '../models/note-model';
 import AccessController from '../lib/access-control/access-controller';
 import AuthorizationError from '../errors/AuthorizationError';
 import NotFoundError from '../errors/NotFoundError';

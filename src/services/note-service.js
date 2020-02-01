@@ -1,11 +1,11 @@
-import { Note } from '../models/note-model';
+import { NoteModel } from '../models/note-model';
 import AccessController from '../lib/access-control/access-controller';
 import AuthorizationError from '../errors/AuthorizationError';
 import NotFoundError from '../errors/NotFoundError';
 
 export default class NoteService {
 	constructor() {
-		this.noteModel = Note;
+		this.noteModel = NoteModel;
 		this.accessController = new AccessController();
 	}
 

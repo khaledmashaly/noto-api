@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+
 import { defaultSchemaOptions } from './default-schema-options';
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
+
 export const NOTE_STATE = ['DEFAULT', 'ARCHIVE', 'TRASH'];
 
 const noteSchema = new mongoose.Schema(
@@ -37,4 +39,4 @@ const noteSchema = new mongoose.Schema(
 	}
 );
 
-export const Note = mongoose.model('Note', noteSchema);
+export const NoteModel = mongoose.model('Note', noteSchema);

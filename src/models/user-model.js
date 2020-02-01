@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import argon2 from 'argon2';
+
 import { defaultSchemaOptions } from './default-schema-options';
 
 const userSchema = new mongoose.Schema(
@@ -31,4 +32,4 @@ userSchema.methods.checkPassword = async function(password) {
 	return await argon2.verify(this.password, password);
 };
 
-export const User = mongoose.model('User', userSchema);
+export const UserModel = mongoose.model('User', userSchema);

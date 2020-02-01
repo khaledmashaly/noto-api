@@ -1,9 +1,9 @@
-import { User } from '../models/user-model';
+import { UserModel } from '../models/user-model';
 import NotFoundError from '../errors/NotFoundError';
 
 export default class UserService {
 	constructor() {
-		this.userModel = User;
+		this.userModel = UserModel;
 	}
 
 	async saveOne(userDTO) {

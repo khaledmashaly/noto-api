@@ -1,9 +1,10 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { User } from '../models/user-model';
+import { UserModel } from '../models/user-model';
 
 const verifyUser = (username, password, done) => {
-	User.findOne({ email: username })
+	UserModel
+		.findOne({ email: username })
 		.then((user) => {
 			if (!user) {
 				done(null, false, { message: 'User not found' });
@@ -35,7 +36,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-	const user = await User.findById(id);
+	const user = await UserModel.findById(id);
 	if (!user) {
 		return done(new Error('user not found'));
 	}

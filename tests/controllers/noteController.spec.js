@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import noteController from '../../src/controllers/noteController';
-import { Note } from '../../src/models/note-model';
+import { NoteModel } from '../../src/models/note-model';
 import NotFoundError from '../../src/errors/NotFoundError';
 
 describe('noteController', () => {
@@ -22,7 +22,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const NoteStub = sinon.stub(Note, 'create').resolves({
+			const NoteStub = sinon.stub(NoteModel, 'create').resolves({
 				id: '1',
 				ownerId: req.user.id,
 				...req.body
@@ -55,7 +55,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			sinon.stub(Note, 'create').rejects(new Error('wrong data'));
+			sinon.stub(NoteModel, 'create').rejects(new Error('wrong data'));
 
 			await noteController.create(req, res, next);
 
@@ -76,7 +76,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const findById = sinon.stub(Note, 'findById');
+			const findById = sinon.stub(NoteModel, 'findById');
 			findById.returns({ exec: sinon.stub().resolves({ id: '1' }) });
 
 			await noteController.get(req, res, next);
@@ -99,7 +99,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const findById = sinon.stub(Note, 'findById');
+			const findById = sinon.stub(NoteModel, 'findById');
 			findById.returns({ exec: sinon.stub().rejects({ error: 'error' }) });
 
 			await noteController.get(req, res, next);
@@ -122,7 +122,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const find = sinon.stub(Note, 'find');
+			const find = sinon.stub(NoteModel, 'find');
 			find.returns({ exec: sinon.stub().resolves([]) });
 
 			await noteController.getAll(req, res, next);
@@ -145,7 +145,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const find = sinon.stub(Note, 'find');
+			const find = sinon.stub(NoteModel, 'find');
 			find.returns({ exec: sinon.stub().rejects({ error: 'error' }) });
 
 			await noteController.getAll(req, res, next);
@@ -169,7 +169,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const findByIdAndUpdate = sinon.stub(Note, 'findByIdAndUpdate');
+			const findByIdAndUpdate = sinon.stub(NoteModel, 'findByIdAndUpdate');
 			findByIdAndUpdate.returns({
 				exec: sinon.stub().resolves({
 					id: '1',
@@ -199,7 +199,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const findByIdAndUpdate = sinon.stub(Note, 'findByIdAndUpdate');
+			const findByIdAndUpdate = sinon.stub(NoteModel, 'findByIdAndUpdate');
 			findByIdAndUpdate.returns({
 				exec: sinon.stub().resolves(undefined)
 			});
@@ -224,7 +224,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const findByIdAndDelete = sinon.stub(Note, 'findByIdAndDelete').returns({
+			const findByIdAndDelete = sinon.stub(NoteModel, 'findByIdAndDelete').returns({
 				exec: sinon.stub().resolves({})
 			});
 
@@ -249,7 +249,7 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			sinon.stub(Note, 'findByIdAndDelete').returns({
+			sinon.stub(NoteModel, 'findByIdAndDelete').returns({
 				exec: sinon.stub().rejects({ error: 'error' })
 			});
 

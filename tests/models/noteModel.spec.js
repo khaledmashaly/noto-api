@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { Note, NOTE_STATE } from '../../src/models/note-model';
+import { NoteModel, NOTE_STATE } from '../../src/models/note-model';
 
 describe('note', () => {
 	describe('title', () => {
 		it('should be invalid if title is empty', (done) => {
-			const note = new Note({
+			const note = new NoteModel({
 				ownerId: '5d55847007e7fe30baac1767'
 			});
 
@@ -29,7 +29,7 @@ describe('note', () => {
 
 	describe('state', () => {
 		it(`should be invalid if not one of: ${NOTE_STATE.join(', ')}`, (done) => {
-			const note = new Note({
+			const note = new NoteModel({
 				state: 'NOTHING'
 			});
 
@@ -53,7 +53,7 @@ describe('note', () => {
 
 	describe('ownerId', () => {
 		it('should be invalid if ownerId is empty', (done) => {
-			const note = new Note({
+			const note = new NoteModel({
 				title: 'hellooooo'
 			});
 
@@ -75,7 +75,7 @@ describe('note', () => {
 		});
 
 		it('should be invalid if ownerId is not an ObjectId', (done) => {
-			const note = new Note({
+			const note = new NoteModel({
 				title: 'hellooooo',
 				ownerId: 'ret'
 			});

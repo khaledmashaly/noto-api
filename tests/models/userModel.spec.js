@@ -1,13 +1,13 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { User } from '../../src/models/user-model';
+import { UserModel } from '../../src/models/user-model';
 import argon2 from 'argon2';
 
 describe('user', () => {
 	describe('email', () => {
 		it('should be invalid if email is empty', (done) => {
-			const user = new User({
+			const user = new UserModel({
 				password: 'password',
 				fullname: 'Khaled Maged'
 			});
@@ -32,7 +32,7 @@ describe('user', () => {
 
 	describe('password', () => {
 		it('should be invalid if password is empty', (done) => {
-			const user = new User({
+			const user = new UserModel({
 				email: 'user@domain.com',
 				fullname: 'Khaled Maged'
 			});
@@ -57,7 +57,7 @@ describe('user', () => {
 
 	describe('fullname', () => {
 		it('should be invalid if fullname is empty', (done) => {
-			const user = new User({
+			const user = new UserModel({
 				email: 'user@domain.com',
 				password: 'password'
 			});
@@ -84,7 +84,7 @@ describe('user', () => {
 		it('should set user.password to hash', async () => {
 			const hashStub = sinon.stub(argon2, 'hash').resolves('hashed-password');
 
-			const user = new User();
+			const user = new UserModel();
 			await user.setPassword('password');
 
 			sinon.assert.calledOnce(hashStub);
@@ -101,7 +101,7 @@ describe('user', () => {
 		it('should call argon2.verify and return a boolean', async () => {
 			const verifyStub = sinon.stub(argon2, 'verify').resolves(true);
 
-			const user = new User();
+			const user = new UserModel();
 			user.password = 'hashed-password';
 
 			const passwordMatch = await user.checkPassword('password');

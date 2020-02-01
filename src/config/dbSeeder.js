@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
-import { User } from '../models/user-model';
+import { UserModel } from '../models/user-model';
 import logger from './logger';
 
 const seedDB = async () => {
@@ -11,13 +11,13 @@ const seedDB = async () => {
 			useCreateIndex: true
 		});
 
-		const userCount = await User.countDocuments().exec();
+		const userCount = await UserModel.countDocuments().exec();
 
 		if (userCount === 0) {
 			logger.warn('dbSeeder.js: no users in database');
 			logger.warn('dbSeeder.js: seeding admin user...');
 
-			const admin = new User({
+			const admin = new UserModel({
 				email: process.env.NOTO_ADMIN_EMAIL,
 				fullname: process.env.NOTO_ADMIN_FULLNAME
 			});

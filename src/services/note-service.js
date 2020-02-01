@@ -75,8 +75,8 @@ export default class NoteService {
 		}
 	}
 
-	deleteOne(user, noteId) {
-		const noteToDelete = this.getOne(user, noteId);
+	async deleteOne(user, noteId) {
+		const noteToDelete = await this.getOne(user, noteId);
 
 		const permission = this.accessController.canDelete(user, noteToDelete);
 

@@ -3,11 +3,11 @@ import NotFoundError from '../errors/NotFoundError';
 
 export default class UserService {
 	constructor() {
-		this.userModel = UserModel;
+		this.UserModel = UserModel;
 	}
 
 	async saveOne(userDTO) {
-		const newUser = new this.userModel({
+		const newUser = new this.UserModel({
 			email: userDTO.email,
 			fullname: userDTO.fullname
 		});
@@ -16,7 +16,7 @@ export default class UserService {
 	}
 
 	async getOne(userId) {
-		const user = await this.userModel.findOne({ _id: userId }, { password: 0 });
+		const user = await this.UserModel.findOne({ _id: userId }, { password: 0 });
 		if (!user) {
 			throw new NotFoundError('user not found');
 		}

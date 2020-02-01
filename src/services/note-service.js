@@ -5,7 +5,7 @@ import NotFoundError from '../errors/NotFoundError';
 
 export default class NoteService {
 	constructor() {
-		this.noteModel = NoteModel;
+		this.NoteModel = NoteModel;
 		this.accessController = new AccessController();
 	}
 
@@ -16,7 +16,7 @@ export default class NoteService {
 	 * @return {Promise} resolves to the added document
 	 */
 	addOne(user, addNoteDTO) {
-		return this.noteModel.create({
+		return this.NoteModel.create({
 			...addNoteDTO,
 			ownerId: user._id
 		});
@@ -30,7 +30,7 @@ export default class NoteService {
 	 * @throws {AuthorizationError} if user doesn't have access to requested note
 	 */
 	async getOne(user, noteId) {
-		const note = await this.noteModel.findOne({ _id: noteId }).exec();
+		const note = await this.NoteModel.findOne({ _id: noteId }).exec();
 
 		if (note === null) {
 			throw new NotFoundError('note is not found');
@@ -51,7 +51,7 @@ export default class NoteService {
 	 * @return {object[]} array of note documents added by authenticated user
 	 */
 	getMany(user) {
-		return this.noteModel.find({ ownerId: user._id }).exec();
+		return this.NoteModel.find({ ownerId: user._id }).exec();
 	}
 
 	/**
@@ -89,6 +89,6 @@ export default class NoteService {
 			throw new AuthorizationError('user doesn\'t have permission to edit note');
 		}
 
-		return this.noteModel.deleteOne({ _id: noteId }).exec();
+		return this.NoteModel.deleteOne({ _id: noteId }).exec();
 	}
 }

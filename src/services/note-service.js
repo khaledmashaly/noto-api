@@ -17,7 +17,7 @@ export default class NoteService {
 	addOne(user, addNoteDTO) {
 		return this.noteModel.create({
 			...addNoteDTO,
-			ownerId: user.id
+			ownerId: user._id
 		});
 	}
 
@@ -46,7 +46,7 @@ export default class NoteService {
 	 * @return {object[]} array of note documents added by authenticated user
 	 */
 	getMany(user) {
-		return this.noteModel.find({ ownerId: user.id }).exec();
+		return this.noteModel.find({ ownerId: user._id }).exec();
 	}
 
 	/**

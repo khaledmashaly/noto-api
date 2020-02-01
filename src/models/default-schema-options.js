@@ -10,7 +10,9 @@ const defaultSchemaOptions = {
 		createdAt: 'createdAt',
 		// name of last-update date field
 		updatedAt: 'updatedAt'
-	}
+	},
+	// don't assign an id virtual getter which returns the _id field
+	id: false
 };
 
 export default defaultSchemaOptions;

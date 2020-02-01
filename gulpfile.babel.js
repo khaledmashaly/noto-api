@@ -1,36 +1,37 @@
-import { src, dest, series } from 'gulp';
+import { src, dest, series, parallel } from 'gulp';
 import eslint from 'gulp-eslint';
 import babel from 'gulp-babel';
 import rimraf from 'rimraf';
 
 const paths = {
-	src: [
-		'app.js',
-		'config/**/*.js',
-		'controllers/**/*.js',
-		'errors/**/*.js',
-		'middleware/**/*.js',
-		'models/**/*.js',
-		'routers/**/*.js'
-	],
+	src: ['src/**/*.js'],
+	tests: ['tests/**/*.js'],
 	dest: ['dist/']
 };
-
-const srcOptions = { base: '.' };
 
 const clean = (cb) => {
 	rimraf('dist', cb);
 };
 
-export const buildJS = () => {
-	return src(paths.src, srcOptions)
+const lint = (files) => {
+	return src(files)
 		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError())
+		.pipe(eslint.format()) // prints eslint output to the console
+		.pipe(eslint.failAfterError());
+};
+
+const lintSrc = () => lint(paths.src);
+
+const lintTests = () => lint(paths.tests);
+
+const transpile = () => {
+	return src(paths.src, { base: 'src' })
 		.pipe(babel())
 		.pipe(dest(paths.dest));
 };
 
-const build = series(clean, buildJS);
+export const lintAll = parallel(lintSrc, lintTests);
+
+export const build = series(clean, lintSrc, transpile);
 
 export default build;

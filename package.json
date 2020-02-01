@@ -19,7 +19,8 @@
     "prod:start": "node dist/app.js",
     "prod:db-seed": "node dist/config/dbSeeder.js",
     "test": "mocha tests/globalHooks.js tests/**/*.js --require @babel/register",
-    "build": "cross-env NODE_ENV=production gulp"
+    "build": "cross-env NODE_ENV=production gulp build",
+    "lint": "gulp lintAll"
   },
   "author": "Khaled Mashaly",
   "license": "ISC",

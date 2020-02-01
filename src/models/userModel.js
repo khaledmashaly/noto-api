@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import argon2 from 'argon2';
-import defaultSchemaOptions from './default-schema-options';
+import { defaultSchemaOptions } from './default-schema-options';
 
 const userSchema = new mongoose.Schema(
 	{

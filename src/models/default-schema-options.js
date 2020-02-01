@@ -3,7 +3,7 @@
 	https://mongoosejs.com/docs/guide.html#options
 */
 
-const defaultSchemaOptions = {
+export const defaultSchemaOptions = {
 	// auto-assign creation and last-update dates to schemas
 	timestamps: {
 		// name of creation date field
@@ -14,5 +14,3 @@ const defaultSchemaOptions = {
 	// don't assign an id virtual getter which returns the _id field
 	id: false
 };
-
-export default defaultSchemaOptions;

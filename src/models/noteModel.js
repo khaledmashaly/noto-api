@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import defaultSchemaOptions from './default-schema-options';
+import { defaultSchemaOptions } from './default-schema-options';
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
 export const NOTE_STATE = ['DEFAULT', 'ARCHIVE', 'TRASH'];

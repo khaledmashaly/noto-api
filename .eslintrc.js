@@ -23,7 +23,7 @@ module.exports = {
 		'indent': ['error', 'tab'],
 		'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
 		'max-len': 'off',
-		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+		'no-console': 'error',
 		'no-tabs': 'off',
 		'object-curly-spacing': ['error', 'always'],
 		'one-var': ['error', { 'initialized': 'never', 'uninitialized': 'consecutive' }],

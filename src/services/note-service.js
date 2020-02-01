@@ -1,6 +1,7 @@
 import { Note } from '../models/noteModel';
 import AccessController from '../lib/access-control/access-controller';
 import AuthorizationError from '../errors/AuthorizationError';
+import NotFoundError from '../errors/NotFoundError';
 
 export default class NoteService {
 	constructor() {
@@ -30,6 +31,10 @@ export default class NoteService {
 	 */
 	async getOne(user, noteId) {
 		const note = await this.noteModel.findOne({ _id: noteId }).exec();
+
+		if (note === null) {
+			throw new NotFoundError('note is not found');
+		}
 
 		const permission = this.accessController.canRead(user, note);
 

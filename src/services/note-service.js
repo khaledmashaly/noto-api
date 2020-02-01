@@ -56,7 +56,7 @@ export default class NoteService {
 	 * @param {string} noteId id of note to be updated
 	 */
 	async updateOne(user, updatedNoteDTO, noteId) {
-		const oldNote = await this.getOne(noteId);
+		const oldNote = await this.getOne(user, noteId);
 
 		const permission = this.accessController.canEdit(user, oldNote);
 

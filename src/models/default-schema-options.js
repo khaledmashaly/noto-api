@@ -4,7 +4,10 @@
 */
 
 const defaultSchemaOptions = {
-	timestamps: true
+	timestamps: {
+		createdAt: 'createdAt',
+		updatedAt: 'updatedAt'
+	}
 };
 
 export default defaultSchemaOptions;

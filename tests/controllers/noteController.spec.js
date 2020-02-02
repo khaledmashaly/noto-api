@@ -1,7 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import noteController from '../../src/controllers/noteController';
+
+import { noteController } from '../../src/controllers/noteController';
 import { NoteModel } from '../../src/models/note-model';
 import NotFoundError from '../../src/errors/NotFoundError';
 

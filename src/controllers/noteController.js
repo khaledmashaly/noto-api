@@ -4,7 +4,7 @@ import UpdateNoteDTO from '../dtos/update-note-dto';
 
 const noteService = new NoteService();
 
-const noteController = {
+export const noteController = {
 	async create(req, res, next) {
 		try {
 			const addNoteDTO = await AddNoteDTO.fromRequestBody(req.body);
@@ -64,5 +64,3 @@ const noteController = {
 		}
 	}
 };
-
-export default noteController;

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import noteController from '../controllers/noteController';
+import { noteController } from '../controllers/noteController';
 
 const noteRouter = new Router();
 

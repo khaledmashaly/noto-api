@@ -1,7 +1,7 @@
 import Joi from '@hapi/joi';
 import ValidationError from '../errors/ValidationError';
 
-export default class AddNoteDTO {
+export class AddNoteDTO {
 	constructor(title, body) {
 		this.title = title;
 		this.body = body;

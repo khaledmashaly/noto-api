@@ -3,7 +3,7 @@ import AccessController from '../lib/access-control/access-controller';
 import AuthorizationError from '../errors/AuthorizationError';
 import NotFoundError from '../errors/NotFoundError';
 
-export default class NoteService {
+export class NoteService {
 	constructor() {
 		this.NoteModel = NoteModel;
 		this.accessController = new AccessController();

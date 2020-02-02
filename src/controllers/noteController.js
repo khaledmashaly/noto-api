@@ -1,4 +1,4 @@
-import NoteService from '../services/note-service';
+import { NoteService } from '../services/note-service';
 import AddNoteDTO from '../dtos/add-note-dto';
 import UpdateNoteDTO from '../dtos/update-note-dto';
 

@@ -11,10 +11,7 @@ const noteController = {
 
 			const newNote = await noteService.addOne(req.user, addNoteDTO);
 
-			return res.status(201)
-					  .set('Location', '/note/' + newNote.id)
-					  .json(newNote)
-					  .end();
+			return res.status(201).json(newNote);
 		}
 		catch (err) {
 			return next(err);

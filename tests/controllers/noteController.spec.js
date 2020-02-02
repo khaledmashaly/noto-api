@@ -9,35 +9,32 @@ describe('noteController', () => {
 	describe('#create', () => {
 		it('should return 201 on success', async () => {
 			const req = {
-				user: { id: '1' },
+				user: { _id: '1' },
 				body: {
 					title: 'hello',
 					body: 'world'
 				}
 			};
 			const res = {
-				set: sinon.stub().returnsThis(),
 				status: sinon.stub().returnsThis(),
-				end: sinon.spy()
+				json: sinon.spy()
 			};
-			const next = sinon.spy();
+			const addedNote = {
+				_id: '1',
+				title: req.body.title,
+				body: req.body.body,
+				ownerId: req.user._id
+			};
 
-			const NoteStub = sinon.stub(NoteModel, 'create').resolves({
-				id: '1',
-				ownerId: req.user.id,
-				...req.body
-			});
+			const NoteModelStub = sinon.stub(NoteModel, 'create').resolves(addedNote);
 
-			await noteController.create(req, res, next);
+			await noteController.create(req, res);
 
-			sinon.assert.calledOnce(NoteStub);
-			sinon.assert.calledOnce(res.set);
-			sinon.assert.calledWithExactly(res.set, 'Location', '/note/1');
+			sinon.assert.calledOnce(NoteModelStub);
 			sinon.assert.calledOnce(res.status);
 			sinon.assert.calledWithExactly(res.status, 201);
-			sinon.assert.calledOnce(res.end);
-
-			return;
+			sinon.assert.calledOnce(res.json);
+			sinon.assert.calledWithExactly(res.json, addedNote);
 		});
 
 		it('call next on failure', async () => {

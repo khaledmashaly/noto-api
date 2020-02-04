@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { noteController } from '../../src/controllers/noteController';
+import { NoteService } from '../../src/services/note-service';
+import { AddNoteDTO } from '../../src/dtos/add-note-dto';
 import { NoteModel } from '../../src/models/note-model';
 import NotFoundError from '../../src/errors/NotFoundError';
 
@@ -20,18 +22,26 @@ describe('noteController', () => {
 				status: sinon.stub().returnsThis(),
 				json: sinon.spy()
 			};
+			const addNoteDTO = {
+				title: req.body.title,
+				body: req.body.body
+			};
 			const addedNote = {
 				_id: '1',
-				title: req.body.title,
-				body: req.body.body,
+				title: addNoteDTO.title,
+				body: addNoteDTO.body,
 				ownerId: req.user._id
 			};
 
-			const NoteModelStub = sinon.stub(NoteModel, 'create').resolves(addedNote);
+			const addNoteDtoFactoryStub = sinon.stub(AddNoteDTO, 'fromRequestBody').resolves(addNoteDTO);
+			const noteServiceAddOneStub = sinon.stub(NoteService.prototype, 'addOne').resolves(addedNote);
 
 			await noteController.create(req, res);
 
-			sinon.assert.calledOnce(NoteModelStub);
+			sinon.assert.calledOnce(addNoteDtoFactoryStub);
+			sinon.assert.calledWithExactly(addNoteDtoFactoryStub, req.body);
+			sinon.assert.calledOnce(noteServiceAddOneStub);
+			sinon.assert.calledWithExactly(noteServiceAddOneStub, req.user, addNoteDTO);
 			sinon.assert.calledOnce(res.status);
 			sinon.assert.calledWithExactly(res.status, 201);
 			sinon.assert.calledOnce(res.json);
@@ -39,27 +49,18 @@ describe('noteController', () => {
 		});
 
 		it('call next on failure', async () => {
-			const req = {
-				user: { id: '1' },
-				body: {
-					title: 'hello',
-					body: 'world'
-				}
-			};
-			const res = {
-				status: sinon.spy(),
-				set: sinon.spy(),
-				end: sinon.spy()
-			};
+			const req = {};
+			const res = {};
 			const next = sinon.spy();
+			const thrownError = new Error('wrong data');
 
-			sinon.stub(NoteModel, 'create').rejects(new Error('wrong data'));
+			const addNoteDtoFactoryStub = sinon.stub(AddNoteDTO, 'fromRequestBody').rejects(thrownError);
 
 			await noteController.create(req, res, next);
 
+			sinon.assert.calledOnce(addNoteDtoFactoryStub);
 			sinon.assert.calledOnce(next);
-
-			return;
+			sinon.assert.calledWithExactly(next, thrownError);
 		});
 	});
 

@@ -67,46 +67,44 @@ describe('noteController', () => {
 	describe('#get', () => {
 		it('should return 200 on success', async () => {
 			const req = {
+				user: { _id: '1' },
 				params: { id: '1' }
 			};
 			const res = {
 				status: sinon.stub().returnsThis(),
 				json: sinon.spy()
 			};
-			const next = sinon.spy();
+			const note = { _id: '1' };
 
-			const findById = sinon.stub(NoteModel, 'findById');
-			findById.returns({ exec: sinon.stub().resolves({ id: '1' }) });
+			const noteServiceGetOne = sinon.stub(NoteService.prototype, 'getOne').resolves(note);
 
-			await noteController.get(req, res, next);
+			await noteController.get(req, res);
 
+			sinon.assert.calledOnce(noteServiceGetOne);
+			sinon.assert.calledWithExactly(noteServiceGetOne, req.user, req.params.id);
 			sinon.assert.calledOnce(res.status);
-			sinon.assert.calledWith(res.status, 200);
+			sinon.assert.calledWithExactly(res.status, 200);
 			sinon.assert.calledOnce(res.json);
-			sinon.assert.calledWith(res.json, { id: '1' });
-
-			return;
+			sinon.assert.calledWithExactly(res.json, note);
 		});
 
 		it('calls next on error', async () => {
-			const req = {
-				params: { id: '1' }
-			};
-			const res = {
-				status: sinon.stub().returnsThis(),
-				json: sinon.spy()
-			};
+			/*
+				use an empty params object so that an error is note thrown
+				when noteService.getOne references req.params.id
+			*/
+			const req = { params: {} };
+			const res = {};
 			const next = sinon.spy();
+			const thrownError = new Error();
 
-			const findById = sinon.stub(NoteModel, 'findById');
-			findById.returns({ exec: sinon.stub().rejects({ error: 'error' }) });
+			const noteServiceGetOne = sinon.stub(NoteService.prototype, 'getOne').rejects(thrownError);
 
 			await noteController.get(req, res, next);
 
+			sinon.assert.calledOnce(noteServiceGetOne);
 			sinon.assert.calledOnce(next);
-			sinon.assert.calledWith(next, { error: 'error' });
-
-			return;
+			sinon.assert.calledWithExactly(next, thrownError);
 		});
 	});
 

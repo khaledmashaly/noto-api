@@ -1,6 +1,6 @@
 import { NoteService } from '../services/note-service';
 import { AddNoteDTO } from '../dtos/add-note-dto';
-import UpdateNoteDTO from '../dtos/update-note-dto';
+import { UpdateNoteDTO } from '../dtos/update-note-dto';
 
 const noteService = new NoteService();
 

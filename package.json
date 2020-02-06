@@ -62,7 +62,8 @@
     "ncp": "^2.0.0",
     "nodemon": "^1.19.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.4.1"
+    "sinon": "^7.4.1",
+    "supertest": "^4.0.2"
   },
   "husky": {
     "hooks": {

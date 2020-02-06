@@ -5,11 +5,12 @@ import compression from 'compression';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import cors from 'cors';
+
 import './config/passport';
 import session from './config/sessionConfig';
 import authenticationMiddleware from './middleware/authenticationMiddleware';
 import errorHandler from './middleware/errorHandler';
-import cors from 'cors';
 import routers from './routers';
 
 const app = express();

@@ -1,12 +1,11 @@
 import { describe, it } from 'mocha';
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { noteController } from '../../src/controllers/noteController';
 import { NoteService } from '../../src/services/note-service';
 import { AddNoteDTO } from '../../src/dtos/add-note-dto';
+import { UpdateNoteDTO } from '../../src/dtos/update-note-dto';
 import { NoteModel } from '../../src/models/note-model';
-import NotFoundError from '../../src/errors/NotFoundError';
 
 describe('noteController', () => {
 	describe('#create', () => {
@@ -149,6 +148,7 @@ describe('noteController', () => {
 	describe('#update', () => {
 		it('should return 204 on success', async () => {
 			const req = {
+				user: { _id: '1' },
 				params: { id: '1' },
 				body: { title: 'hello' }
 			};
@@ -156,49 +156,46 @@ describe('noteController', () => {
 				status: sinon.stub().returnsThis(),
 				end: sinon.spy()
 			};
-			const next = sinon.spy();
+			const updateNoteDTO = { title: 'hello' };
+			const updatedNote = {
+				title: 'hello',
+				body: ''
+			};
 
-			const findByIdAndUpdate = sinon.stub(NoteModel, 'findByIdAndUpdate');
-			findByIdAndUpdate.returns({
-				exec: sinon.stub().resolves({
-					id: '1',
-					title: 'hello'
-				})
-			});
 
-			await noteController.update(req, res, next);
+			const updateNoteDtoFactoryStub = sinon.stub(UpdateNoteDTO, 'fromRequestBody').resolves(updateNoteDTO);
+			const noteServiceUpdateOneStub = sinon.stub(NoteService.prototype, 'updateOne').resolves(updatedNote);
 
-			sinon.assert.calledOnce(findByIdAndUpdate);
-			sinon.assert.calledWith(findByIdAndUpdate, '1', { title: 'hello' }, { omitUndefined: true });
+			await noteController.update(req, res);
+
+			sinon.assert.calledOnce(updateNoteDtoFactoryStub);
+			sinon.assert.calledWithExactly(updateNoteDtoFactoryStub, req.body);
+			sinon.assert.calledOnce(noteServiceUpdateOneStub);
+			sinon.assert.calledWithExactly(noteServiceUpdateOneStub, req.user, updateNoteDTO, req.params.id);
 			sinon.assert.calledOnce(res.status);
-			sinon.assert.calledWith(res.status, 204);
+			sinon.assert.calledWithExactly(res.status, 204);
 			sinon.assert.calledOnce(res.end);
-
-			return;
 		});
 
 		it('should call next on error', async () => {
-			const req = {
-				params: { id: '1' },
-				body: { title: 'hello' }
-			};
-			const res = {
-				status: sinon.stub().returnsThis(),
-				end: sinon.spy()
-			};
+			/*
+				use an empty params object so that an error is note thrown
+				when noteService.getOne references req.params.id
+			*/
+			const req = { params: {} };
+			const res = {};
 			const next = sinon.spy();
+			const thrownError = new Error();
 
-			const findByIdAndUpdate = sinon.stub(NoteModel, 'findByIdAndUpdate');
-			findByIdAndUpdate.returns({
-				exec: sinon.stub().resolves(undefined)
-			});
+			const updateNoteDtoFactoryStub = sinon.stub(UpdateNoteDTO, 'fromRequestBody').rejects(thrownError);
+			const noteServiceUpdateOneStub = sinon.stub(NoteService.prototype, 'updateOne');
 
 			await noteController.update(req, res, next);
 
+			sinon.assert.calledOnce(updateNoteDtoFactoryStub);
+			sinon.assert.notCalled(noteServiceUpdateOneStub);
 			sinon.assert.calledOnce(next);
-			expect(next.firstCall.args[0] instanceof NotFoundError, 'argument is not a NotFoundError').to.be.true;
-
-			return;
+			sinon.assert.calledWithExactly(next, thrownError);
 		});
 	});
 

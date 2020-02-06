@@ -117,40 +117,32 @@ describe('noteController', () => {
 				status: sinon.stub().returnsThis(),
 				json: sinon.spy()
 			};
-			const next = sinon.spy();
 
-			const find = sinon.stub(NoteModel, 'find');
-			find.returns({ exec: sinon.stub().resolves([]) });
+			const noteServiceGetMany = sinon.stub(NoteService.prototype, 'getMany').resolves([]);
 
-			await noteController.getAll(req, res, next);
+			await noteController.getAll(req, res);
 
+			sinon.assert.calledOnce(noteServiceGetMany);
+			sinon.assert.calledWithExactly(noteServiceGetMany, req.user);
 			sinon.assert.calledOnce(res.status);
-			sinon.assert.calledWith(res.status, 200);
+			sinon.assert.calledWithExactly(res.status, 200);
 			sinon.assert.calledOnce(res.json);
-			sinon.assert.calledWith(res.json, []);
-
-			return;
+			sinon.assert.calledWithExactly(res.json, []);
 		});
 
 		it('should call next on error', async () => {
-			const req = {
-				user: { id: '1' }
-			};
-			const res = {
-				status: sinon.stub().returnsThis(),
-				json: sinon.spy()
-			};
+			const req = {};
+			const res = {};
 			const next = sinon.spy();
+			const thrownError = new Error();
 
-			const find = sinon.stub(NoteModel, 'find');
-			find.returns({ exec: sinon.stub().rejects({ error: 'error' }) });
+			const noteServiceGetMany = sinon.stub(NoteService.prototype, 'getMany').rejects(thrownError);
 
 			await noteController.getAll(req, res, next);
 
+			sinon.assert.calledOnce(noteServiceGetMany);
 			sinon.assert.calledOnce(next);
-			sinon.assert.calledWith(next, { error: 'error' });
-
-			return;
+			sinon.assert.calledWith(next, thrownError);
 		});
 	});
 

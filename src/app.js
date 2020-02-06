@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import helmet from 'helmet';
@@ -6,17 +5,14 @@ import compression from 'compression';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import './config/db';
 import './config/passport';
 import session from './config/sessionConfig';
 import authenticationMiddleware from './middleware/authenticationMiddleware';
 import errorHandler from './middleware/errorHandler';
 import cors from 'cors';
-import logger from './config/logger';
 import routers from './routers';
 
 const app = express();
-const port = process.env.PORT || '3000';
 
 app.use(cors({
 	origin: true,
@@ -37,4 +33,4 @@ app.use(authenticationMiddleware);
 app.use(routers);
 app.use(errorHandler);
 
-app.listen(port, () => logger.info(`app running on port ${port}`));
+export { app };

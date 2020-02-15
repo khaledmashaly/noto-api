@@ -19,6 +19,7 @@
     "prod:start": "node dist/index.js",
     "prod:db-seed": "node dist/config/dbSeeder.js",
     "test": "mocha tests/globalHooks.js tests/**/*.js --require @babel/register",
+    "e2e": "mocha e2e/global-hooks.js e2e/**/*.js --require @babel/register",
     "build": "cross-env NODE_ENV=production gulp build",
     "lint": "gulp lintAll"
   },

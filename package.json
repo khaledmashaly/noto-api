@@ -59,7 +59,7 @@
     "husky": "^4.2.1",
     "lint-staged": "^10.0.7",
     "mocha": "^6.2.0",
-    "mongodb-memory-server-core": "^6.2.4",
+    "mongodb-memory-server": "^6.2.4",
     "ncp": "^2.0.0",
     "nodemon": "^1.19.0",
     "rimraf": "^2.6.3",

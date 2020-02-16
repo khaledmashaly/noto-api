@@ -5,6 +5,13 @@ import sinon from 'sinon';
 
 let mongod;
 
+const dropCollections = async () => {
+	const collections = await mongoose.connection.db.collections();
+	collections.forEach(async (collection) => {
+		await collection.deleteMany();
+	});
+};
+
 beforeEach(async () => {
 	// spawn a new in-memory mongo instance
 	mongod = new MongoMemoryServer();
@@ -20,6 +27,9 @@ beforeEach(async () => {
 		useCreateIndex: true,
 		useUnifiedTopology: true
 	});
+
+	// drop collections to force creation of indices
+	await dropCollections();
 });
 
 afterEach(async () => {

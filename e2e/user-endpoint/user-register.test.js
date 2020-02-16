@@ -19,7 +19,7 @@ describe('POST /user', () => {
 			.expect(201);
 	});
 
-	it('responds with 422 if email already exists', async () => {
+	it('fails when email is not unique', async () => {
 		const newUser = {
 			email: 'hello2@world.com',
 			fullname: 'Hello World',

@@ -1,4 +1,4 @@
-import { beforeEach, afterEach } from 'mocha';
+import { before, after, afterEach } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import sinon from 'sinon';
@@ -12,7 +12,7 @@ const dropCollections = async () => {
 	});
 };
 
-beforeEach(async () => {
+before(async () => {
 	// spawn a new in-memory mongo instance
 	mongod = new MongoMemoryServer();
 	const mongoUri = await mongod.getUri();
@@ -33,10 +33,14 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+	await dropCollections();
+	// restore all sinon stubs
+	sinon.restore();
+});
+
+after(async () => {
 	// stop mongoose connection
 	await mongoose.disconnect();
 	// stop mongo instance
 	await mongod.stop();
-	// restore all sinon stubs
-	sinon.restore();
 });

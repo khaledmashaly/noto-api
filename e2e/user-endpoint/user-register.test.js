@@ -16,7 +16,6 @@ describe('POST /user', () => {
 		await request(app)
 			.post('/user')
 			.send(newUser)
-			.set('Accept', 'application/json')
 			.expect(201);
 	});
 
@@ -31,13 +30,11 @@ describe('POST /user', () => {
 		await request(app)
 			.post('/user')
 			.send(newUser)
-			.set('Accept', 'application/json')
 			.expect(201);
 
 		await request(app)
 			.post('/user')
 			.send(newUser)
-			.set('Accept', 'application/json')
 			.expect(422);
 	});
 });

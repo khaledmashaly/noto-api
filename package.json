@@ -18,8 +18,8 @@
     "dev:db-seed": "babel-node ./src/config/dbSeeder.js",
     "prod:start": "node dist/index.js",
     "prod:db-seed": "node dist/config/dbSeeder.js",
-    "test": "mocha tests/globalHooks.js tests/**/*.js --require @babel/register",
-    "e2e": "mocha e2e/global-hooks.js e2e/**/*.js --require @babel/register",
+    "test": "mocha tests/globalHooks.js tests/**/*.js -r @babel/register dotenv/config",
+    "e2e": "mocha e2e/global-hooks.js e2e/**/*.js -r @babel/register dotenv/config",
     "build": "cross-env NODE_ENV=production gulp build",
     "lint": "gulp lintAll"
   },

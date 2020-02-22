@@ -2,8 +2,6 @@ import { describe, it } from 'mocha';
 import request from 'supertest';
 import { expect } from 'chai';
 
-console.log(process.env.NODE_ENV);
-
 import { app } from '../../src/app';
 
 describe('POST /user', () => {

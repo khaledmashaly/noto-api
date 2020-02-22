@@ -5,7 +5,7 @@ import rimraf from 'rimraf';
 
 const paths = {
 	src: ['src/**/*.js'],
-	tests: ['tests/**/*.js'],
+	tests: ['tests/**/*.js', 'e2e/**/*.js'],
 	dest: ['dist/']
 };
 

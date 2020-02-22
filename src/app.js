@@ -21,7 +21,12 @@ app.use(cors({
 }));
 app.use(helmet());
 app.use(compression());
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+
+if (process.env.NODE_ENV !== 'test') {
+	// disable morgan's output to make e2e test report readable
+	app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+}
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

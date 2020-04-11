@@ -5,7 +5,6 @@ import { noteController } from '../../src/controllers/noteController';
 import { NoteService } from '../../src/services/note-service';
 import { AddNoteDTO } from '../../src/dtos/add-note-dto';
 import { UpdateNoteDTO } from '../../src/dtos/update-note-dto';
-import { NoteModel } from '../../src/models/note-model';
 
 describe('noteController', () => {
 	describe('#create', () => {
@@ -202,6 +201,7 @@ describe('noteController', () => {
 	describe('#delete', () => {
 		it('should return 204 on success', async () => {
 			const req = {
+				user: { _id: '1' },
 				params: { id: '1' }
 			};
 			const res = {
@@ -210,19 +210,15 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			const findByIdAndDelete = sinon.stub(NoteModel, 'findByIdAndDelete').returns({
-				exec: sinon.stub().resolves({})
-			});
+			const mockNoteServiceDeleteOne = sinon.stub(NoteService.prototype, 'deleteOne').resolves({});
 
 			await noteController.delete(req, res, next);
 
-			sinon.assert.calledOnce(findByIdAndDelete);
-			sinon.assert.calledWithExactly(findByIdAndDelete, '1');
+			sinon.assert.calledOnce(mockNoteServiceDeleteOne);
+			sinon.assert.calledWithExactly(mockNoteServiceDeleteOne, req.user, '1');
 			sinon.assert.calledOnce(res.status);
-			sinon.assert.calledWith(res.status, 204);
+			sinon.assert.calledWithExactly(res.status, 204);
 			sinon.assert.calledOnce(res.end);
-
-			return;
 		});
 
 		it('should call next on error', async () => {
@@ -235,17 +231,14 @@ describe('noteController', () => {
 			};
 			const next = sinon.spy();
 
-			sinon.stub(NoteModel, 'findByIdAndDelete').returns({
-				exec: sinon.stub().rejects({ error: 'error' })
-			});
+			const mockNoteServiceDeleteOne = sinon.stub(NoteService.prototype, 'deleteOne').rejects({ error: 'error' });
 
 			await noteController.delete(req, res, next);
 
+			sinon.assert.calledOnce(mockNoteServiceDeleteOne);
 			sinon.assert.notCalled(res.status);
 			sinon.assert.calledOnce(next);
 			sinon.assert.calledWithExactly(next, { error: 'error' });
-
-			return;
 		});
 	});
 });

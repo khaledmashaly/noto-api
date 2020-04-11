@@ -17,7 +17,7 @@ describe('note', () => {
 				expect(validationError.errors.title, 'errors.title doesn\'t exist')
 					.to.exist;
 				expect(validationError.errors.title.message)
-					.to.equal('title is required', 'error message is wrong');
+					.to.equal('note.title is required', 'error message is wrong');
 			}
 			catch (e) {
 				return done(e);
@@ -65,7 +65,7 @@ describe('note', () => {
 				expect(validationError.errors.ownerId, 'errors.ownerId doesn\'t exist')
 					.to.exist;
 				expect(validationError.errors.ownerId.message)
-					.to.equal('ownerId is required', 'error message is wrong');
+					.to.equal('note.ownerId is required', 'error message is wrong');
 			}
 			catch (e) {
 				return done(e);

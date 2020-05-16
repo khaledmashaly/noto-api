@@ -39,3 +39,10 @@ export const exists = (value) => isNotUndefined(value) && isNotNull(value);
  * @return {boolean} true if value is either undefined or null, false otherwise
  */
 export const notExists = (value) => !exists(value);
+
+/**
+ * checks if a value exists and is an array
+ * @param {any} value the value to check
+ * @return {boolean} true if value exists and is an array, false otherwise
+ */
+export const isArray = (value) => Array.isArray(value);

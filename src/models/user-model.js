@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import argon2 from 'argon2';
 
 import { defaultSchemaOptions } from './default-schema-options';
+import { PasswordHasher } from '../lib/utilities/password-hasher';
 
 const userSchema = new mongoose.Schema(
 	{
@@ -24,12 +24,12 @@ const userSchema = new mongoose.Schema(
 	}
 );
 
-userSchema.methods.setPassword = async function(password) {
-	this.password = await argon2.hash(password);
+userSchema.methods.setPassword = async function(plainPassword) {
+	this.password = await new PasswordHasher().hash(plainPassword);
 };
 
-userSchema.methods.checkPassword = async function(password) {
-	return await argon2.verify(this.password, password);
+userSchema.methods.checkPassword = async function(plainPassword) {
+	return await new PasswordHasher().verify(this.password, plainPassword);
 };
 
 export const UserModel = mongoose.model('User', userSchema);
